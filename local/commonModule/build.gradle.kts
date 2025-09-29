@@ -13,7 +13,7 @@ plugins {
 }
 
 kotlin {
-    applyTargets("com.nfrevolution.hannasequestrianproject.xxx")
+    applyTargets()
     applyKspSourcesLocation()
 
     sourceSets {

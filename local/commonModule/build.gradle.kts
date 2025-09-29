@@ -1,10 +1,10 @@
-import com.nfrevolution.ynth.com.nfrevolution.ynth.extension.applyKsp
-import com.nfrevolution.ynth.extension.androidDependencies
-import com.nfrevolution.ynth.extension.applyKspSourcesLocation
-import com.nfrevolution.ynth.extension.applyTargets
-import com.nfrevolution.ynth.extension.commonDependencies
-import com.nfrevolution.ynth.extension.iosDependencies
-import com.nfrevolution.ynth.extension.webDependencies
+import com.nfrevolution.hannasequestrianproject.com.nfrevolution.hannasequestrianproject.extension.applyKsp
+import com.nfrevolution.hannasequestrianproject.extension.androidDependencies
+import com.nfrevolution.hannasequestrianproject.extension.applyKspSourcesLocation
+import com.nfrevolution.hannasequestrianproject.extension.applyTargets
+import com.nfrevolution.hannasequestrianproject.extension.commonDependencies
+import com.nfrevolution.hannasequestrianproject.extension.iosDependencies
+import com.nfrevolution.hannasequestrianproject.extension.webDependencies
 
 
 plugins {
@@ -13,7 +13,7 @@ plugins {
 }
 
 kotlin {
-    applyTargets("com.nfrevolution.ynth.xxx")
+    applyTargets("com.nfrevolution.hannasequestrianproject.xxx")
     applyKspSourcesLocation()
 
     sourceSets {

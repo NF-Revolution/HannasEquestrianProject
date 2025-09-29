@@ -11,14 +11,14 @@ alwaysApply: true
 - Use the commonFeatureModule template from the local/commonFeatureModule directory when creating a
   feature module.
 * Update Namespace in build.gradle.kts:
-- In the build.gradle.kts file of the new module, find the string "com.nfrevolution.ynth.xxx".  
-- Replace xxx with the module name (e.g., for a module named auth, set "com.nfrevolution.ynth.auth").
+- In the build.gradle.kts file of the new module, find the string "com.nfrevolution.hannasequestrianproject.xxx".  
+- Replace xxx with the module name (e.g., for a module named auth, set "com.nfrevolution.hannasequestrianproject.auth").
 * Configure Package Structure:
 
 - In the local/commonModule/src or local/commonFeatureModule/src directory, the default package is
-  kotlin.com.nfrevolution.ynth.
+  kotlin.com.nfrevolution.hannasequestrianproject.
 - For each target (e.g., Android, iOS) in the src directory of the new module, append the module name as a subpackage.  
-- Example: For a module named auth, use the package kotlin.com.nfrevolution.ynth.auth.
+- Example: For a module named auth, use the package kotlin.com.nfrevolution.hannasequestrianproject.auth.
 * Place Module in KMP Directory: 
 - Create the new module inside the kmp directory.  
 - Select the most suitable subdirectory based on the module's purpose (e.g., kmp/feature for feature modules, kmp/core for core utilities, kmp/compose for UI stuff).

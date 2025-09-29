@@ -4,7 +4,7 @@ globs:
 alwaysApply: true
 ---
 ## Follow Clean Architecture with modules:
-- main package is "com.nfrevolution.ynth"
+- main package is "com.nfrevolution.hannasequestrianproject"
 - Domain: Use cases, entities, repository interfaces.
 - Data: Repository implementations, Firebase interactions, data mapping.
 - Presentation: Compose UI, ViewModels, UI state.

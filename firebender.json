@@ -1,0 +1,38 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@upstash/context7-mcp"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "rulesPaths": "rules/architecture-rules.md"
+    },
+    {
+      "rulesPaths": "rules/contex7-rule.md"
+    },
+    {
+      "rulesPaths": "rules/kotlin-lanuage-rules.md"
+    },
+    {
+      "rulesPaths": "rules/multiplatform-rules.md"
+    },
+    {
+      "rulesPaths": "rules/testing-rules.md"
+    },
+    {
+      "rulesPaths": "rules/module-creation-rules.md"
+    }
+  ],
+  "ignore": [
+    ".kotlin",
+    ".gradle",
+    "**/build/",
+    "build/**",
+    ".gradle/**"
+  ]
+}

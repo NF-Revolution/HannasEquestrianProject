@@ -8,7 +8,7 @@ import com.nfrevolution.hannasequestrianproject.extension.webDependencies
 
 
 plugins {
-    alias(libs.plugins.ynth.kmp.library)
+    alias(libs.plugins.hannasequestrianproject.kmp.library)
     alias(libs.plugins.google.ksp)
 }
 

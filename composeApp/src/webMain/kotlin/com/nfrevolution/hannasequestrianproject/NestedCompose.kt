@@ -72,10 +72,6 @@ fun NestedComposeViewportDemo() {
         NestedComposeViewPort(
             modifier = Modifier.size(150.dp, 60.dp).padding(top = 8.dp).align(Alignment.TopCenter)
         ) {
-//            Text(
-//                modifier = Modifier.align(Alignment.TopStart),
-//                text = "Counter: $counterValue"
-//            )
             Button(
                 modifier = Modifier.align(Alignment.Center),
                 onClick = {

@@ -8,12 +8,12 @@ androidx-espresso = "3.6.1"
 androidx-lifecycle = "2.9.1"
 androidx-testExt = "1.2.1"
 compose-hotreload = "1.0.0-beta03"
-compose-multiplatform = "1.8.2"
+compose-multiplatform = "1.9.0"
 junit = "4.13.2"
-kotlin = "2.2.0"
+kotlin = "2.2.20"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
-ksp = "2.2.0-2.0.2"
+ksp = "2.2.20-2.0.3"
 tiamat = "2.0.0-alpha01"
 koin-version = "4.1.0"
 koin-annotations = "2.1.0"
@@ -91,8 +91,6 @@ ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 [plugins]
-android-application = { id = "com.android.application", version.ref = "agp" }
-android-kotlin-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.4" }
 google-services = { id = "com.google.gms.google-services", version = "4.4.3" }
 jetbrains-compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
@@ -100,7 +98,6 @@ jetbrains-compose-hotreload = { id = "org.jetbrains.compose.hot-reload", version
 jetbrains-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
@@ -108,3 +105,4 @@ secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugi
 
 # Project conventional plugins
 hannasequestrianproject-kmp-compose = { id = "hannasequestrianproject.kmp.compose" }
+hannasequestrianproject-kmp-ksp = { id = "hannasequestrianproject.kmp.ksp" }

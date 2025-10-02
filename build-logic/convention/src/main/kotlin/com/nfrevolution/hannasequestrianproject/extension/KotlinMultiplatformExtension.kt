@@ -25,6 +25,6 @@ fun KotlinMultiplatformExtension.webDependencies(
     configure: KotlinDependencyHandler.() -> Unit,
 ) = sourceSets.wasmJsMain.dependencies { configure() }
 
-fun KotlinMultiplatformExtension.applyKspSourcesLocation() = sourceSets.commonMain {
-    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+fun KotlinMultiplatformExtension.applyKspSourcesLocation() = sourceSets.wasmJsMain {
+    kotlin.srcDir("build/generated/ksp/wasmJs/wasmJsMain/kotlin")
 }

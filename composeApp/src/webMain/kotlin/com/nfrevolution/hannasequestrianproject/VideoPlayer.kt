@@ -1,6 +1,5 @@
 package com.nfrevolution.hannasequestrianproject
 
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
@@ -20,5 +19,4 @@ expect fun VideoPlayer(
     posterUrl: String? = null,
     minWidthPx: Int = 320,
     minHeightPx: Int = 180,
-    content: @Composable BoxScope.() -> Unit
 )

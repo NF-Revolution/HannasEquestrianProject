@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.kotlin.serialization) apply false
-    alias(libs.plugins.google.ksp).apply(false)
+    alias(libs.plugins.google.ksp) apply false
     alias(libs.plugins.secrets) apply false
     alias(libs.plugins.kotlin.cocoapods) apply false
 }

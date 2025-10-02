@@ -17,5 +17,9 @@ gradlePlugin {
             id = "hannasequestrianproject.kmp.compose"
             implementationClass = "com.nfrevolution.hannasequestrianproject.KmpComposePlugin"
         }
+        register("hannasequestrianproject.kmp.ksp") {
+            id = "hannasequestrianproject.kmp.ksp"
+            implementationClass = "com.nfrevolution.hannasequestrianproject.KmpKspPlugin"
+        }
     }
 }

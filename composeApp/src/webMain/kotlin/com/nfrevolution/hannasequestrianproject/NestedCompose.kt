@@ -23,8 +23,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -32,48 +35,53 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import kotlinx.browser.document
-import kotlinx.browser.window
-import kotlinx.dom.createElement
-import org.w3c.dom.HTMLDivElement
-import org.w3c.dom.HTMLIFrameElement
 import androidx.compose.ui.viewinterop.WebElementView
 import androidx.compose.ui.window.ComposeViewport
-
-private val ttGoogleMaps =
-    "https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1361.8421810316931!2d4.894047523068853!3d52.338403908686736!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2snl!4v1749117010713!5m2!1sen!2snl"
-private val ttOSM =
-    "https://www.openstreetmap.org/export/embed.html?bbox=4.890965223312379%2C52.33722052818563%2C4.893990755081177%2C52.33860862450587&amp;layer=mapnik"
+import kotlinx.browser.document
+import kotlinx.browser.window
+import kotlinx.coroutines.delay
+import org.w3c.dom.HTMLDivElement
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun NestedComposeViewportDemo() {
-
-    val mapProvider = remember { mutableStateOf("OSM") }
+    var counterValue: Int by remember { mutableStateOf(0) }
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(1000)
+            counterValue += 1
+        }
+    }
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        WebElementView(
-            factory = {
-                (document.createElement("iframe") as HTMLIFrameElement)
-            },
+        VideoPlayer(
             modifier = Modifier.fillMaxSize(),
-            update = { iframe ->
-                iframe.src = if (mapProvider.value == "OSM") ttOSM else ttGoogleMaps
-            }
+            urlOrUri = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            controls = false,
+            autoPlay = true,
+            loop = true,
+            muted = false,
+            posterUrl = null,
+            minWidthPx = 640,
+            minHeightPx = 360,
         )
+
 
         NestedComposeViewPort(
             modifier = Modifier.size(150.dp, 60.dp).padding(top = 8.dp).align(Alignment.TopCenter)
         ) {
+//            Text(
+//                modifier = Modifier.align(Alignment.TopStart),
+//                text = "Counter: $counterValue"
+//            )
             Button(
                 modifier = Modifier.align(Alignment.Center),
                 onClick = {
-                    mapProvider.value =
-                        if (mapProvider.value == "OSM") "GM" else "OSM"
+                    counterValue = 0
                 }) {
-                Text("Switch Map")
+                Text("Counter: $counterValue")
             }
         }
 
@@ -92,17 +100,25 @@ private fun NestedComposeViewPort(
         factory = {
             (document.createElement("div") as HTMLDivElement).apply {
                 this.id = id
-                style.apply { background = "transparent" }
+                style.apply {
+                    background = "transparent"
+                    display = "block"
+                    width = "100%"
+                    height = "100%"
+                }
 
+                // Use double requestAnimationFrame to ensure proper initialization
                 window.requestAnimationFrame {
-                    ComposeViewport(this) {
-                        Box(modifier = Modifier.fillMaxSize().drawBehind {
-                            drawRect(
-                                color = Color.Transparent,
-                                blendMode = BlendMode.Clear
-                            )
-                        }) {
-                            content()
+                    window.requestAnimationFrame {
+                        ComposeViewport(this) {
+                            Box(modifier = Modifier.fillMaxSize().drawBehind {
+                                drawRect(
+                                    color = Color.Transparent,
+                                    blendMode = BlendMode.Clear
+                                )
+                            }) {
+                                content()
+                            }
                         }
                     }
                 }

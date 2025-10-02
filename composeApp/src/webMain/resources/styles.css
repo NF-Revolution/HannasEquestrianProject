@@ -5,34 +5,3 @@ html, body {
     padding: 0;
     overflow: hidden;
 }
-
-h1 {
-    padding: 0 16px;
-    font-size: 2em;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-}
-
-
-#composeApplication {
-    flex: 1;
-}
-
-body:has(textarea) {
-    background-color: aliceblue;
-}
-
-body:has(textarea:focus) {
-    background-color: #eaffe3;
-}
-
-body:has(input) {
-    background-color: aliceblue;
-}
-
-body:has(input:focus) {
-    background-color: #eaffe3;
-}

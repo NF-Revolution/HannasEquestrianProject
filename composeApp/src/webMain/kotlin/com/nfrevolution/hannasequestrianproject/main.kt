@@ -2,10 +2,11 @@ package com.nfrevolution.hannasequestrianproject
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
+import com.nfrevolution.hannasequestrianproject.root.App
 
 @OptIn(ExperimentalComposeUiApi::class)
-fun main() {
+public fun main() {
     ComposeViewport {
-        NestedComposeViewportDemo()
+        App()
     }
 }

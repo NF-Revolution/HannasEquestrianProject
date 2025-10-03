@@ -34,3 +34,14 @@ plugins {
 }
 
 include(":composeApp")
+
+// KMP Base Modules
+include(":kmp:base:core")
+include(":kmp:base:navigation")
+
+// KMP Compose Modules
+include(":kmp:compose:theme")
+include(":kmp:compose:foundation")
+
+// KMP Feature Modules
+include(":kmp:features:root")

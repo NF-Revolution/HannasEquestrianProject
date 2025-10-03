@@ -105,4 +105,4 @@ secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugi
 
 # Project conventional plugins
 hannasequestrianproject-kmp-compose = { id = "hannasequestrianproject.kmp.compose" }
-hannasequestrianproject-kmp-ksp = { id = "hannasequestrianproject.kmp.ksp" }
+hannasequestrianproject-kmp-library = { id = "hannasequestrianproject.kmp.library" }

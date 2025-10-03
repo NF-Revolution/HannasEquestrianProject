@@ -1,4 +1,4 @@
-package com.nfrevolution.hannasequestrianproject
+package com.nfrevolution.hannasequestrianproject.foundation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -9,7 +9,7 @@ import org.w3c.dom.HTMLVideoElement
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalWasmJsInterop::class)
 @Composable
-actual fun VideoPlayer(
+public actual fun VideoPlayer(
     urlOrUri: String,
     modifier: Modifier,
     controls: Boolean,

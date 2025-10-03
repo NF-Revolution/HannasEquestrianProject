@@ -1,4 +1,4 @@
-package com.nfrevolution.hannasequestrianproject
+package com.nfrevolution.hannasequestrianproject.foundation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
  * within the Compose layout (no manual body overlays).
  */
 @Composable
-expect fun VideoPlayer(
+public expect fun VideoPlayer(
     urlOrUri: String,
     modifier: Modifier = Modifier,
     controls: Boolean = true,

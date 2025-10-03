@@ -45,3 +45,5 @@ include(":kmp:compose:foundation")
 
 // KMP Feature Modules
 include(":kmp:features:root")
+include(":kmp:features:home:domain")
+include(":kmp:features:home:presentation")

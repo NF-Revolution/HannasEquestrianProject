@@ -1,5 +1,4 @@
 [versions]
-agp = "8.11.1"
 androidx-activity = "1.10.1"
 androidx-appcompat = "1.7.1"
 androidx-constraintlayout = "2.2.1"
@@ -14,7 +13,7 @@ kotlin = "2.2.20"
 kotlinx-coroutines = "1.10.2"
 kotlinx-serialization = "1.9.0"
 ksp = "2.2.20-2.0.3"
-tiamat = "2.0.0-alpha01"
+tiamat = "2.0.0-rc01"
 koin-version = "4.1.0"
 koin-annotations = "2.1.0"
 flowmvi = "3.2.0-alpha05"
@@ -57,7 +56,6 @@ androidx-datastore = { module = "androidx.datastore:datastore-preferences", vers
 androidx-datastore-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
 
 # Dependencies for build-logic module
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 compose-compiler-plugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 

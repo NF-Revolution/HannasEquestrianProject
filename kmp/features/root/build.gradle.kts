@@ -1,23 +1,21 @@
-import com.nfrevolution.hannasequestrianproject.extension.applyTargets
-import com.nfrevolution.hannasequestrianproject.extension.commonDependencies
-import com.nfrevolution.hannasequestrianproject.extension.commonTestDependencies
+import com.nfrevolution.hannasequestrianproject.extension.webDependencies
 
 plugins {
     alias(libs.plugins.hannasequestrianproject.kmp.library)
     alias(libs.plugins.hannasequestrianproject.kmp.compose)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
-    applyTargets()
 
     sourceSets {
-        commonDependencies {
+        webDependencies {
             implementation(projects.kmp.base.core)
             implementation(projects.kmp.base.navigation)
 
             implementation(projects.kmp.compose.foundation)
             implementation(projects.kmp.compose.theme)
+
+            implementation(projects.kmp.features.home.presentation)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -29,10 +27,7 @@ kotlin {
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
-        }
-
-        commonTestDependencies {
-            implementation(libs.kotlin.test)
+            implementation(libs.koin.annotations)
         }
     }
 }

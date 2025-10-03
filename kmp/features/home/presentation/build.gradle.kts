@@ -6,16 +6,18 @@ plugins {
 }
 
 kotlin {
+
     sourceSets {
         webDependencies {
-            implementation(projects.kmp.features.root)
+            implementation(projects.kmp.features.home.domain)
+            api(projects.kmp.base.navigation)
+
+            api(libs.tiamat)
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.runtimeCompose)
         }
     }
 }

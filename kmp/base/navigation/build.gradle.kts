@@ -1,5 +1,4 @@
-import com.nfrevolution.hannasequestrianproject.extension.applyTargets
-import com.nfrevolution.hannasequestrianproject.extension.commonDependencies
+import com.nfrevolution.hannasequestrianproject.extension.webDependencies
 
 plugins {
     alias(libs.plugins.hannasequestrianproject.kmp.library)
@@ -7,10 +6,9 @@ plugins {
 }
 
 kotlin {
-    applyTargets()
 
     sourceSets {
-        commonDependencies {
+        webDependencies {
             api(libs.tiamat)
 
             implementation(compose.ui)

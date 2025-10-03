@@ -32,7 +32,13 @@ in your IDE's toolbar or run it directly from the terminal:
     .\gradlew.bat :composeApp:jsBrowserDevelopmentRun
     ```
 
----
+## Gradle Versions Plugin
+
+This plugin provides a task to check Gradle and dependencies for updates.
+
+```shell
+./gradlew checkDependencyUpdates
+```
 
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
 [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),

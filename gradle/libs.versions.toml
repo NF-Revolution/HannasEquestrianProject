@@ -20,6 +20,7 @@ flowmvi = "3.2.0-alpha05"
 ktor = "3.2.2"
 datastore = "1.1.7"
 kotlin-browser = "0.4"
+gradle-versions = "0.53.0"
 
 [libraries]
 # Kotlin
@@ -100,6 +101,7 @@ kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref =
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version = "2.0.1" }
+gradle-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
 
 # Project conventional plugins
 hannasequestrianproject-kmp-compose = { id = "hannasequestrianproject.kmp.compose" }

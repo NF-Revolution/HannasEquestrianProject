@@ -15,7 +15,12 @@ kotlin {
             implementation(projects.kmp.compose.foundation)
             implementation(projects.kmp.compose.theme)
 
+            implementation(projects.kmp.features.navigationDrawer.presentation)
             implementation(projects.kmp.features.home.presentation)
+            implementation(projects.kmp.features.horses.presentation)
+            implementation(projects.kmp.features.stables.presentation)
+            implementation(projects.kmp.features.about.presentation)
+            implementation(projects.kmp.features.mainContent.presentation)
 
             implementation(compose.runtime)
             implementation(compose.foundation)

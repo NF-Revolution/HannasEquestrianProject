@@ -67,7 +67,7 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 @Composable
-public fun HannasTheme(
+public fun AppTheme(
     isDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
@@ -75,7 +75,7 @@ public fun HannasTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = HannasTypography,
+        typography = createCommonTypography(),
         shapes = HannasShapes,
         content = content
     )

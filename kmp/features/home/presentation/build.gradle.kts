@@ -10,14 +10,18 @@ kotlin {
     sourceSets {
         webDependencies {
             implementation(projects.kmp.features.home.domain)
-            api(projects.kmp.base.navigation)
+            implementation(projects.kmp.features.navigationDrawer.presentation)
 
-            api(libs.tiamat)
+            implementation(projects.kmp.base.navigation)
+            implementation(projects.kmp.compose.foundation)
+            implementation(projects.kmp.compose.theme)
+
 
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
+            implementation(compose.materialIconsExtended)
         }
     }
 }

@@ -8,7 +8,9 @@ plugins {
 kotlin {
     sourceSets {
         webDependencies {
+            implementation(projects.kmp.compose.resources)
             implementation(compose.material3)
+            implementation(compose.components.resources)
         }
     }
 }

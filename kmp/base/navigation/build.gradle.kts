@@ -11,9 +11,8 @@ kotlin {
         webDependencies {
             api(libs.tiamat)
 
+            implementation(compose.foundation)
             implementation(compose.ui)
-            implementation(compose.animation)
-            implementation(libs.compose.ui.backhandler)
         }
     }
 }

@@ -42,8 +42,25 @@ include(":kmp:base:navigation")
 // KMP Compose Modules
 include(":kmp:compose:theme")
 include(":kmp:compose:foundation")
+include(":kmp:compose:resources")
 
 // KMP Feature Modules
 include(":kmp:features:root")
+
 include(":kmp:features:home:domain")
 include(":kmp:features:home:presentation")
+
+include(":kmp:features:horses:domain")
+include(":kmp:features:horses:presentation")
+
+include(":kmp:features:stables:domain")
+include(":kmp:features:stables:presentation")
+
+include(":kmp:features:about:domain")
+include(":kmp:features:about:presentation")
+
+include(":kmp:features:mainContent:domain")
+include(":kmp:features:mainContent:presentation")
+
+include(":kmp:features:navigationDrawer:domain")
+include(":kmp:features:navigationDrawer:presentation")

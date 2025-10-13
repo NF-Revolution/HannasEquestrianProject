@@ -7,6 +7,9 @@ fun KotlinMultiplatformExtension.webTestDependencies(
     configure: KotlinDependencyHandler.() -> Unit,
 ) = sourceSets.webTest.dependencies { configure() }
 
+fun KotlinMultiplatformExtension.commonDependencies(
+    configure: KotlinDependencyHandler.() -> Unit,
+) = sourceSets.commonMain.dependencies { configure() }
 
 fun KotlinMultiplatformExtension.webDependencies(
     configure: KotlinDependencyHandler.() -> Unit,

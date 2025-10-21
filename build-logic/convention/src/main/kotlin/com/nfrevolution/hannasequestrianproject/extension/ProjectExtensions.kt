@@ -8,23 +8,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 fun Project.applyKsp() {
     dependencies {
-        add("kspWasmJs", libs.koin.ksp.compiler)
+        add("kspCommonMainMetadata", libs.koin.ksp.compiler)
     }
 
-    afterEvaluate {
-        tasks.named("kspKotlinWasmJs").configure {
-            dependsOn(tasks.matching {
-                it.name.contains("generateResourceAccessors") ||
-                        it.name.contains("generateActualResourceCollectors") ||
-                        it.name.contains("generateExpectResourceCollectors") ||
-                        it.name.contains("generateComposeResClass")
-            })
-        }
-
-        tasks.withType<KotlinCompilationTask<*>>().configureEach {
-            if (name != "kspKotlinWasmJs" && name.contains("WasmJs")) {
-                dependsOn("kspKotlinWasmJs")
-            }
+    tasks.withType<KotlinCompilationTask<*>>().configureEach {
+        if (name != "kspCommonMainKotlinMetadata") {
+            dependsOn("kspCommonMainKotlinMetadata")
         }
     }
 }

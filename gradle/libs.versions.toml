@@ -6,21 +6,23 @@ androidx-core = "1.16.0"
 androidx-espresso = "3.6.1"
 androidx-lifecycle = "2.9.1"
 androidx-testExt = "1.2.1"
-compose-hotreload = "1.0.0-beta03"
-compose-multiplatform = "1.9.0"
+compose-multiplatform = "1.9.1"
+compose-hot-reload="1.0.0-rc02"
 junit = "4.13.2"
 kotlin = "2.2.20"
 kotlinx-coroutines = "1.10.2"
+kotlinx-datetime = "0.7.1"
 kotlinx-serialization = "1.9.0"
 ksp = "2.2.20-2.0.3"
 tiamat = "2.0.0-rc01"
 koin-version = "4.1.0"
 koin-annotations = "2.1.0"
-flowmvi = "3.2.0-alpha05"
+flowmvi = "3.2.0"
 ktor = "3.2.2"
 datastore = "1.1.7"
 kotlin-browser = "0.4"
 gradle-versions = "0.53.0"
+buildkonfig = "0.17.1"
 
 [libraries]
 # Kotlin
@@ -28,6 +30,7 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutinesSwing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlin-browser = { module = "org.jetbrains.kotlinx:kotlinx-browser", version.ref = "kotlin-browser" }
 
@@ -93,15 +96,16 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.4" }
 google-services = { id = "com.google.gms.google-services", version = "4.4.3" }
 jetbrains-compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
-jetbrains-compose-hotreload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hotreload" }
 jetbrains-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-hot-reload = { id = "org.jetbrains.compose.hot-reload", version.ref = "compose-hot-reload"}
 
 kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version = "2.0.1" }
 gradle-versions = { id = "com.github.ben-manes.versions", version.ref = "gradle-versions" }
+buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
 
 # Project conventional plugins
 hannasequestrianproject-kmp-compose = { id = "hannasequestrianproject.kmp.compose" }

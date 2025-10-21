@@ -17,9 +17,9 @@ import org.w3c.dom.HTMLDivElement
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-public fun NestedComposeViewport(
-    id: String = "nested-compose-viewport",
-    modifier: Modifier = Modifier,
+public actual fun NestedComposeViewport(
+    id: String,
+    modifier: Modifier,
     content: @Composable BoxScope.() -> Unit
 ) {
     WebElementView(
@@ -34,7 +34,6 @@ public fun NestedComposeViewport(
                     height = "100%"
                 }
 
-                // Use double requestAnimationFrame to ensure proper initialization
                 window.requestAnimationFrame {
                     window.requestAnimationFrame {
                         ComposeViewport(this) {

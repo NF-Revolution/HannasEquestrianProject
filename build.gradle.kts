@@ -1,4 +1,6 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.jetbrains.compose.compiler) apply false
@@ -11,10 +13,23 @@ plugins {
     alias(libs.plugins.secrets) apply false
     alias(libs.plugins.kotlin.cocoapods) apply false
     alias(libs.plugins.gradle.versions) apply false
+    alias(libs.plugins.compose.hot.reload) apply false
+    alias(libs.plugins.buildkonfig) apply false
 }
 
 allprojects {
     apply(plugin = "com.github.ben-manes.versions")
+
+    tasks.withType<KotlinCompile>().configureEach {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
+        }
+    }
+
+    tasks.withType<JavaCompile>().configureEach {
+        sourceCompatibility = JavaVersion.VERSION_21.toString()
+        targetCompatibility = JavaVersion.VERSION_21.toString()
+    }
 }
 
 tasks {

@@ -2,9 +2,9 @@ This is a Kotlin Multiplatform project targeting Web.
 
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
   It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
+  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that's common for all targets.
   - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
+    For example, if you want to use Apple's CoreCrypto for the iOS part of your Kotlin app,
     the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
     Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
     folder is the appropriate location.
@@ -13,7 +13,8 @@ This is a Kotlin Multiplatform project targeting Web.
 
 To build and run the development version of the web app, use the run configuration from the run widget
 in your IDE's toolbar or run it directly from the terminal:
-- for the Wasm target (faster, modern browsers):
+
+- for the Wasm target in Browser (recommended):
   - on macOS/Linux
     ```shell
     ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
@@ -22,14 +23,15 @@ in your IDE's toolbar or run it directly from the terminal:
     ```shell
     .\gradlew.bat :composeApp:wasmJsBrowserDevelopmentRun
     ```
-- for the JS target (slower, supports older browsers):
+
+- for Desktop/JVM:
   - on macOS/Linux
     ```shell
-    ./gradlew :composeApp:jsBrowserDevelopmentRun
+    ./gradlew :composeApp:jvmRun
     ```
   - on Windows
     ```shell
-    .\gradlew.bat :composeApp:jsBrowserDevelopmentRun
+    .\gradlew.bat :composeApp:jvmRun
     ```
 
 ## Gradle Versions Plugin

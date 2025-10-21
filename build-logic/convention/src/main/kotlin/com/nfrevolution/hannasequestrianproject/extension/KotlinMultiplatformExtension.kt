@@ -14,3 +14,7 @@ fun KotlinMultiplatformExtension.commonDependencies(
 fun KotlinMultiplatformExtension.webDependencies(
     configure: KotlinDependencyHandler.() -> Unit,
 ) = sourceSets.wasmJsMain.dependencies { configure() }
+
+fun KotlinMultiplatformExtension.jvmDependencies(
+    configure: KotlinDependencyHandler.() -> Unit,
+) = sourceSets.jvmMain.dependencies { configure() }

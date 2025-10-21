@@ -1,4 +1,4 @@
-import com.nfrevolution.hannasequestrianproject.extension.webDependencies
+import com.nfrevolution.hannasequestrianproject.extension.commonDependencies
 
 plugins {
     alias(libs.plugins.hannasequestrianproject.kmp.library)
@@ -7,9 +7,10 @@ plugins {
 
 kotlin {
     sourceSets {
-        webDependencies {
+        commonDependencies {
             implementation(compose.runtime)
             implementation(compose.components.resources)
+            implementation(compose.ui)
         }
     }
 }

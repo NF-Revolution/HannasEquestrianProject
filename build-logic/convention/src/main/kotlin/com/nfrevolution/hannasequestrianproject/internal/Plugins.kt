@@ -11,5 +11,8 @@ internal val Project.jetbrainsComposePluginId
 internal val Project.composeCompilerPluginId
     get() = libs.plugins.jetbrains.compose.compiler.get().pluginId
 
+internal val Project.composeHotReloadPluginId
+    get() = libs.plugins.compose.hot.reload.get().pluginId
+
 internal val Project.kspPluginId
     get() = libs.plugins.google.ksp.get().pluginId

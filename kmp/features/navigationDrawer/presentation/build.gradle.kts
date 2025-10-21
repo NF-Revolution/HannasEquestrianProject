@@ -1,4 +1,5 @@
-import com.nfrevolution.hannasequestrianproject.extension.webDependencies
+import com.nfrevolution.hannasequestrianproject.extension.commonDependencies
+import com.nfrevolution.hannasequestrianproject.extension.commonDependencies
 
 plugins {
     alias(libs.plugins.hannasequestrianproject.kmp.library)
@@ -6,22 +7,26 @@ plugins {
 }
 
 kotlin {
-
     sourceSets {
-        webDependencies {
+        commonDependencies {
             implementation(projects.kmp.features.navigationDrawer.domain)
             implementation(projects.kmp.base.navigation)
+            implementation(projects.kmp.base.core)
             implementation(projects.kmp.compose.foundation)
             implementation(projects.kmp.compose.theme)
+            implementation(projects.kmp.compose.resources)
 
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.materialIconsExtended)
+            implementation(compose.components.resources)
 
             implementation(libs.flowmvi.core)
             implementation(libs.flowmvi.compose)
+
+            implementation(libs.kotlinx.datetime)
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)

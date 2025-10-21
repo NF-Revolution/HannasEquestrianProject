@@ -3,8 +3,8 @@ package com.nfrevolution.hannasequestrianproject.com.nfrevolution.hannasequestri
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
-internal fun KotlinMultiplatformExtension.applyKspSourcesLocation() = sourceSets.wasmJsMain {
-    kotlin.srcDir("build/generated/ksp/wasmJs/wasmJsMain/kotlin")
+internal fun KotlinMultiplatformExtension.applyKspSourcesLocation() = sourceSets.commonMain {
+    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
 }
 
 internal fun KotlinMultiplatformExtension.applyTargets() {
@@ -13,4 +13,5 @@ internal fun KotlinMultiplatformExtension.applyTargets() {
         browser()
         binaries.executable()
     }
+    jvm()
 }

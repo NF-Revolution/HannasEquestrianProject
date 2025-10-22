@@ -24,6 +24,8 @@ in your IDE's toolbar or run it directly from the terminal:
     .\gradlew.bat :composeApp:wasmJsBrowserDevelopmentRun
     ```
 
+`./gradlew kotlinUpgradeYarnLock` - to update Yarn.lock
+
 - for Desktop/JVM:
   - on macOS/Linux
     ```shell

@@ -1,5 +1,5 @@
 import com.nfrevolution.hannasequestrianproject.extension.commonDependencies
-import com.nfrevolution.hannasequestrianproject.extension.commonDependencies
+import com.nfrevolution.hannasequestrianproject.extension.jvmTestDependencies
 
 plugins {
     alias(libs.plugins.hannasequestrianproject.kmp.library)
@@ -32,6 +32,13 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.annotations)
             implementation(libs.koin.viewmodel)
+        }
+
+        jvmTestDependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.flowmvi.test)
+            implementation(libs.mockk.core)
         }
     }
 }

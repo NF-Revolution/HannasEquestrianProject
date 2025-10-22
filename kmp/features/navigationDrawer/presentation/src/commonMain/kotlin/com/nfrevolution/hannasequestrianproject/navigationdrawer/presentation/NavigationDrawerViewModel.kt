@@ -139,5 +139,4 @@ internal sealed interface NavigationDrawerAction : MVIAction {
     data class NavigateTo(
         val destination: NavDestination<Unit>
     ) : NavigationDrawerAction
-
 }

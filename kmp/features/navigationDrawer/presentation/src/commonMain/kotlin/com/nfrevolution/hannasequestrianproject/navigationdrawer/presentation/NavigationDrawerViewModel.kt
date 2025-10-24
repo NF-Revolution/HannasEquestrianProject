@@ -55,13 +55,21 @@ internal class NavigationDrawerViewModel(
         reduce { intent ->
             when (intent) {
                 is NavigationDrawerIntent.NavigateTo -> {
-                    updateState { copy(intent.menuItem) }
-                    action(NavigateTo(intent.menuItem.destination))
+                    withState {
+                        if (selectedItem != intent.menuItem) {
+                            updateState { copy(intent.menuItem) }
+                            action(NavigateTo(intent.menuItem.destination))
+                        }
+                    }
                 }
 
                 NavigationDrawerIntent.NavigateToHome -> {
-                    updateState { copy(null) }
-                    action(NavigateTo(featureProvider.home))
+                    withState {
+                        if (selectedItem != null) {
+                            updateState { copy(null) }
+                            action(NavigateTo(featureProvider.home))
+                        }
+                    }
                 }
             }
         }

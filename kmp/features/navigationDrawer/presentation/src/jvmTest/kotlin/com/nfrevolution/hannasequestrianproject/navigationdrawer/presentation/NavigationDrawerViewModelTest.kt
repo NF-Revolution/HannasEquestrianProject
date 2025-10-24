@@ -11,6 +11,7 @@ import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -31,7 +32,7 @@ import kotlin.test.assertTrue
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class)
+@OptIn(ExperimentalCoroutinesApi::class, ExperimentalTime::class, FlowPreview::class)
 internal class NavigationDrawerViewModelTest {
 
     private lateinit var mockFeatureProvider: FeatureProvider
@@ -86,43 +87,22 @@ internal class NavigationDrawerViewModelTest {
     }
 
     @Test
-    fun `should provide drawer setup with three menu items`() {
+    fun `should provide drawer setup with correct menu items and destinations`() {
         // When
         val drawerSetup = viewModel.drawerSetup
 
         // Then
         assertEquals(3, drawerSetup.menuItems.size)
-    }
 
-    @Test
-    fun `should provide drawer setup with horses menu item`() {
-        // When
-        val drawerSetup = viewModel.drawerSetup
         val horsesItem = drawerSetup.menuItems.find { it.title == Res.string.menu_horses }
-
-        // Then
         assertNotNull(horsesItem)
         assertEquals(mockHorsesDestination, horsesItem.destination)
-    }
 
-    @Test
-    fun `should provide drawer setup with stables menu item`() {
-        // When
-        val drawerSetup = viewModel.drawerSetup
         val stablesItem = drawerSetup.menuItems.find { it.title == Res.string.menu_stables }
-
-        // Then
         assertNotNull(stablesItem)
         assertEquals(mockStablesDestination, stablesItem.destination)
-    }
 
-    @Test
-    fun `should provide drawer setup with about menu item`() {
-        // When
-        val drawerSetup = viewModel.drawerSetup
         val aboutItem = drawerSetup.menuItems.find { it.title == Res.string.menu_about }
-
-        // Then
         assertNotNull(aboutItem)
         assertEquals(mockAboutDestination, aboutItem.destination)
     }
@@ -134,6 +114,12 @@ internal class NavigationDrawerViewModelTest {
 
         // Then
         assertTrue(drawerSetup.socialItems.isNotEmpty())
+        drawerSetup.socialItems.forEach { socialItem ->
+            assertNotNull(socialItem.name)
+            assertNotNull(socialItem.link)
+            assertNotNull(socialItem.icon)
+            assertTrue(socialItem.link.isNotBlank())
+        }
     }
 
     @Test
@@ -144,6 +130,7 @@ internal class NavigationDrawerViewModelTest {
 
         // Then
         assertNotNull(copyright)
+        assertNotNull(copyright.titleRes)
         assertNotNull(copyright.year)
 
         val currentYear = Clock.System.now()
@@ -151,20 +138,29 @@ internal class NavigationDrawerViewModelTest {
             .year
 
         assertEquals(currentYear, copyright.year)
+        assertTrue(copyright.year > 2020)
     }
 
     @Test
-    fun `should update selected item when navigating to menu item`() = runTest {
+    fun `should update selected item and emit NavigateTo action when navigating to menu item`() =
+        runTest {
         // Given
         val menuItem = DrawerMenuItem(
             title = Res.string.menu_horses,
             destination = mockHorsesDestination
         )
         val results = mutableListOf<NavigationDrawerUiState>()
+        val actions = mutableListOf<NavigationDrawerAction>()
 
-        val job = launch(testScheduler) {
+            val stateJob = launch(testDispatcher) {
             viewModel.store.collect {
                 states.toList(results)
+            }
+        }
+
+            val actionJob = launch(testDispatcher) {
+                viewModel.store.collect {
+                this.actions.toList(actions)
             }
         }
 
@@ -174,83 +170,51 @@ internal class NavigationDrawerViewModelTest {
 
         // Then
         assertEquals(menuItem, results.last().selectedItem)
-        job.cancel()
-    }
-
-    @Test
-    fun `should emit NavigateTo action when navigating to menu item`() = runTest {
-        // Given
-        val menuItem = DrawerMenuItem(
-            title = Res.string.menu_horses,
-            destination = mockHorsesDestination
-        )
-        val actions = mutableListOf<NavigationDrawerAction>()
-
-        val job = launch(testScheduler) {
-            viewModel.store.collect {
-                this.actions.toList(actions)
-            }
-        }
-
-        // When
-        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(menuItem))
-        advanceUntilIdle()
-
-        // Then
         assertTrue(actions.isNotEmpty())
         val action = actions.first()
         assertTrue(action is NavigationDrawerAction.NavigateTo)
         assertEquals(mockHorsesDestination, action.destination)
-        job.cancel()
+            stateJob.cancel()
+            actionJob.cancel()
     }
 
     @Test
-    fun `should clear selected item when navigating to home`() = runTest {
+    fun `should clear selected item and emit NavigateTo home action when navigating to home`() =
+        runTest {
         // Given
         val menuItem = DrawerMenuItem(
             title = Res.string.menu_horses,
             destination = mockHorsesDestination
         )
         val results = mutableListOf<NavigationDrawerUiState>()
+        val actions = mutableListOf<NavigationDrawerAction>()
 
-        val job = launch(testScheduler) {
+            val stateJob = launch(testDispatcher) {
             viewModel.store.collect {
                 states.toList(results)
+            }
+        }
+
+            val actionJob = launch(testDispatcher) {
+                viewModel.store.collect {
+                this.actions.toList(actions)
             }
         }
 
         // When
         viewModel.store.intent(NavigationDrawerIntent.NavigateTo(menuItem))
         advanceUntilIdle()
-
         viewModel.store.intent(NavigationDrawerIntent.NavigateToHome)
         advanceUntilIdle()
 
         // Then
         assertNull(results.last().selectedItem)
-        job.cancel()
-    }
-
-    @Test
-    fun `should emit NavigateTo home action when navigating to home`() = runTest {
-        val actions = mutableListOf<NavigationDrawerAction>()
-
-        val job = launch(testScheduler) {
-            viewModel.store.collect {
-                this.actions.toList(actions)
-            }
-        }
-
-        // When
-        viewModel.store.intent(NavigationDrawerIntent.NavigateToHome)
-        advanceUntilIdle()
-
-        // Then
-        assertTrue(actions.isNotEmpty())
-        val action = actions.first()
-        assertTrue(action is NavigationDrawerAction.NavigateTo)
-        assertEquals(mockHomeDestination, action.destination)
-        job.cancel()
+        assertTrue(actions.size >= 2)
+        val homeAction = actions.last()
+        assertTrue(homeAction is NavigationDrawerAction.NavigateTo)
+        assertEquals(mockHomeDestination, homeAction.destination)
+            stateJob.cancel()
+            actionJob.cancel()
     }
 
     @Test
@@ -265,158 +229,147 @@ internal class NavigationDrawerViewModelTest {
             destination = mockStablesDestination
         )
         val results = mutableListOf<NavigationDrawerUiState>()
+        val actions = mutableListOf<NavigationDrawerAction>()
 
-        val job = launch(testScheduler) {
+        val stateJob = launch(testDispatcher) {
             viewModel.store.collect {
                 states.toList(results)
             }
         }
 
-        // When & Then
-        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(horsesItem))
-        advanceUntilIdle()
-        assertEquals(horsesItem, results.last().selectedItem)
-
-        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(stablesItem))
-        advanceUntilIdle()
-        assertEquals(stablesItem, results.last().selectedItem)
-
-        viewModel.store.intent(NavigationDrawerIntent.NavigateToHome)
-        advanceUntilIdle()
-        assertNull(results.last().selectedItem)
-
-        job.cancel()
-    }
-
-    @Test
-    fun `should emit correct sequence of actions for multiple navigations`() = runTest {
-        // Given
-        val horsesItem = DrawerMenuItem(
-            title = Res.string.menu_horses,
-            destination = mockHorsesDestination
-        )
-        val actions = mutableListOf<NavigationDrawerAction>()
-
-        val job = launch(testScheduler) {
+        val actionJob = launch(testDispatcher) {
             viewModel.store.collect {
                 this.actions.toList(actions)
             }
         }
 
-        // When
-        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(horsesItem))
-        advanceUntilIdle()
-
-        // Then
-        val firstAction = actions.first() as NavigationDrawerAction.NavigateTo
-        assertEquals(mockHorsesDestination, firstAction.destination)
-
-        // When
-        viewModel.store.intent(NavigationDrawerIntent.NavigateToHome)
-        advanceUntilIdle()
-
-        // Then
-        val secondAction = actions.last() as NavigationDrawerAction.NavigateTo
-        assertEquals(mockHomeDestination, secondAction.destination)
-        job.cancel()
-    }
-
-    @Test
-    fun `should maintain state consistency across different menu item selections`() = runTest {
-        // Given
-        val horsesItem = DrawerMenuItem(
-            title = Res.string.menu_horses,
-            destination = mockHorsesDestination
-        )
-        val aboutItem = DrawerMenuItem(
-            title = Res.string.menu_about,
-            destination = mockAboutDestination
-        )
-        val results = mutableListOf<NavigationDrawerUiState>()
-
-        val job = launch(testScheduler) {
-            viewModel.store.collect {
-                states.toList(results)
-            }
-        }
-
         // When & Then
         viewModel.store.intent(NavigationDrawerIntent.NavigateTo(horsesItem))
         advanceUntilIdle()
         assertEquals(horsesItem, results.last().selectedItem)
+        assertTrue(actions.isNotEmpty())
+        assertEquals(
+            mockHorsesDestination,
+            (actions.last() as NavigationDrawerAction.NavigateTo).destination
+        )
 
-        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(aboutItem))
+        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(stablesItem))
         advanceUntilIdle()
-        assertEquals(aboutItem, results.last().selectedItem)
+        assertEquals(stablesItem, results.last().selectedItem)
+        assertEquals(
+            mockStablesDestination,
+            (actions.last() as NavigationDrawerAction.NavigateTo).destination
+        )
 
+        viewModel.store.intent(NavigationDrawerIntent.NavigateToHome)
+        advanceUntilIdle()
+        assertNull(results.last().selectedItem)
+        assertEquals(
+            mockHomeDestination,
+            (actions.last() as NavigationDrawerAction.NavigateTo).destination
+        )
+
+        stateJob.cancel()
+        actionJob.cancel()
+    }
+
+    @Test
+    fun `should not emit NavigateTo action when navigating to the same menu item`() = runTest {
+        // Given
+        val menuItem = DrawerMenuItem(
+            title = Res.string.menu_horses,
+            destination = mockHorsesDestination
+        )
+        val actions = mutableListOf<NavigationDrawerAction>()
+
+        val job = launch(testDispatcher) {
+            viewModel.store.collect {
+                this.actions.toList(actions)
+            }
+        }
+
+        // When - navigate to the same item twice
+        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(menuItem))
+        advanceUntilIdle()
+        val actionsAfterFirstNav = actions.size
+
+        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(menuItem))
+        advanceUntilIdle()
+
+        // Then - no new action should be emitted
+        assertEquals(actionsAfterFirstNav, actions.size)
         job.cancel()
     }
 
     @Test
-    fun `should correctly structure drawer setup with all components`() {
-        // When
-        val drawerSetup = viewModel.drawerSetup
-
-        // Then - Verify menu items structure
-        assertTrue(drawerSetup.menuItems.isNotEmpty())
-        assertEquals(3, drawerSetup.menuItems.size)
-
-        // Verify each menu item has proper structure
-        drawerSetup.menuItems.forEach { menuItem ->
-            assertNotNull(menuItem.title)
-            assertNotNull(menuItem.destination)
-        }
-
-        // Verify copyright structure
-        assertNotNull(drawerSetup.copyright)
-        assertNotNull(drawerSetup.copyright.titleRes)
-        assertTrue(drawerSetup.copyright.year > 2020) // Sanity check for year
-
-        // Verify social items structure
-        drawerSetup.socialItems.forEach { socialItem ->
-            assertNotNull(socialItem.name)
-            assertNotNull(socialItem.link)
-            assertNotNull(socialItem.icon)
-            assertTrue(socialItem.link.isNotBlank())
-        }
-    }
-
-    @Test
-    fun `should use correct destinations from FeatureProvider`() {
-        // When
-        val drawerSetup = viewModel.drawerSetup
-
-        // Then - Verify that the correct destinations are used
-        val horsesItem = drawerSetup.menuItems.find { it.title == Res.string.menu_horses }
-        val stablesItem = drawerSetup.menuItems.find { it.title == Res.string.menu_stables }
-        val aboutItem = drawerSetup.menuItems.find { it.title == Res.string.menu_about }
-
-        assertEquals(mockHorsesDestination, horsesItem?.destination)
-        assertEquals(mockStablesDestination, stablesItem?.destination)
-        assertEquals(mockAboutDestination, aboutItem?.destination)
-    }
-
-    @Test
-    fun `should emit action with correct destination from FeatureProvider when navigating home`() =
+    fun `should not emit NavigateTo action when navigating to home while already at home`() =
         runTest {
+            // Given
             val actions = mutableListOf<NavigationDrawerAction>()
 
-            val job = launch(testScheduler) {
+            val job = launch(testDispatcher) {
                 viewModel.store.collect {
                     this.actions.toList(actions)
                 }
             }
 
-            // When
+            // When - navigate to home when already at home (selectedItem is null initially)
             viewModel.store.intent(NavigationDrawerIntent.NavigateToHome)
             advanceUntilIdle()
 
-            // Then
-            assertTrue(actions.isNotEmpty())
-            val action = actions.first() as NavigationDrawerAction.NavigateTo
-
-            // Verify it uses the home destination from FeatureProvider
-            assertEquals(mockHomeDestination, action.destination)
+            // Then - no action should be emitted
+            assertTrue(actions.isEmpty())
             job.cancel()
         }
+
+    @Test
+    fun `should not update state when navigating to the same menu item`() = runTest {
+        // Given
+        val menuItem = DrawerMenuItem(
+            title = Res.string.menu_horses,
+            destination = mockHorsesDestination
+        )
+        val results = mutableListOf<NavigationDrawerUiState>()
+
+        val job = launch(testDispatcher) {
+            viewModel.store.collect {
+                states.toList(results)
+            }
+        }
+
+        // When - navigate to the same item twice
+        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(menuItem))
+        advanceUntilIdle()
+        val statesAfterFirstNav = results.size
+
+        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(menuItem))
+        advanceUntilIdle()
+
+        // Then - no new state should be emitted
+        assertEquals(statesAfterFirstNav, results.size)
+        job.cancel()
+    }
+
+    @Test
+    fun `should not update state when navigating to home while already at home`() = runTest {
+        // Given
+        val results = mutableListOf<NavigationDrawerUiState>()
+
+        val job = launch(testDispatcher) {
+            viewModel.store.collect {
+                states.toList(results)
+            }
+        }
+
+        advanceUntilIdle()
+        val initialStateCount = results.size
+
+        // When - navigate to home when already at home
+        viewModel.store.intent(NavigationDrawerIntent.NavigateToHome)
+        advanceUntilIdle()
+
+        // Then - no new state should be emitted
+        assertEquals(initialStateCount, results.size)
+        job.cancel()
+    }
 }

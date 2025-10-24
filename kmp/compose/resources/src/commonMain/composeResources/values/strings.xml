@@ -1,0 +1,14 @@
+<resources>
+    <!-- Navigation Drawer Menu Items -->
+    <string name="menu_horses">Horses</string>
+    <string name="menu_stables">Stables</string>
+    <string name="menu_about">About</string>
+
+    <!-- Social Media Labels -->
+    <string name="social_instagram">Instagram</string>
+    <string name="social_youtube">YouTube</string>
+    <string name="social_tiktok">TikTok</string>
+
+    <!-- Copyright -->
+    <string name="copyright">© %1$s NF Revolution. All rights reserved.</string>
+</resources>

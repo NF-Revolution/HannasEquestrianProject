@@ -9,7 +9,7 @@ import org.w3c.dom.HTMLVideoElement
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalWasmJsInterop::class)
 @Composable
-public fun VideoPlayer(
+public actual fun VideoPlayer(
     urlOrUri: String,
     modifier: Modifier,
     controls: Boolean,

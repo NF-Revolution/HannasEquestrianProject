@@ -1,4 +1,4 @@
-import com.nfrevolution.hannasequestrianproject.extension.webDependencies
+import com.nfrevolution.hannasequestrianproject.extension.commonDependencies
 
 
 plugins {
@@ -7,7 +7,7 @@ plugins {
 
 kotlin {
     sourceSets {
-        webDependencies {
+        commonDependencies {
         }
     }
 }

@@ -1,4 +1,5 @@
-import com.nfrevolution.hannasequestrianproject.extension.webDependencies
+import com.nfrevolution.hannasequestrianproject.extension.commonDependencies
+import com.nfrevolution.hannasequestrianproject.extension.jvmDependencies
 
 plugins {
     alias(libs.plugins.hannasequestrianproject.kmp.library)
@@ -7,7 +8,8 @@ plugins {
 
 kotlin {
     sourceSets {
-        webDependencies {
+        commonDependencies {
+            implementation(projects.kmp.base.core)
             implementation(projects.kmp.features.root)
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -16,6 +18,23 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.kotlinx.coroutines.core)
+        }
+
+        jvmDependencies {
+            implementation(libs.kotlinx.coroutinesSwing)
+            implementation(compose.desktop.currentOs)
+        }
+    }
+}
+
+compose.desktop {
+    application {
+        mainClass = "com.nfrevolution.hannasequestrianproject.MainKt"
+
+        nativeDistributions {
+            packageName = "hannas-equestrian-project"
+            packageVersion = "1.0.0"
         }
     }
 }

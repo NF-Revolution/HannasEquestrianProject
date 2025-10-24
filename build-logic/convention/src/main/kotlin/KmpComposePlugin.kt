@@ -2,6 +2,7 @@ package com.nfrevolution.hannasequestrianproject
 
 import com.nfrevolution.hannasequestrianproject.internal.composeCompiler
 import com.nfrevolution.hannasequestrianproject.internal.composeCompilerPluginId
+import com.nfrevolution.hannasequestrianproject.internal.composeHotReloadPluginId
 import com.nfrevolution.hannasequestrianproject.internal.jetbrainsComposePluginId
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -13,6 +14,7 @@ class KmpComposePlugin : Plugin<Project> {
     override fun apply(target: Project) = with(target) {
         apply(plugin = jetbrainsComposePluginId)
         apply(plugin = composeCompilerPluginId)
+        apply(plugin = composeHotReloadPluginId)
 
         composeCompiler {
             if (project.hasProperty("enableComposeCompilerReports")) {

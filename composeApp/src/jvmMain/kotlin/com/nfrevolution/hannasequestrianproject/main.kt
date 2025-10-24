@@ -7,7 +7,7 @@ import com.nfrevolution.hannasequestrianproject.root.App
 public fun main(): Unit = application {
     Window(
         onCloseRequest = ::exitApplication,
-        title = "Ynth",
+        title = "Hanna's Equestrian Project",
     ) {
         App()
     }

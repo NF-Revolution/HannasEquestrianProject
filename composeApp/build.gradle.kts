@@ -33,7 +33,7 @@ compose.desktop {
         mainClass = "com.nfrevolution.hannasequestrianproject.MainKt"
 
         nativeDistributions {
-            packageName = "package"
+            packageName = "hannas-equestrian-project"
             packageVersion = "1.0.0"
         }
     }

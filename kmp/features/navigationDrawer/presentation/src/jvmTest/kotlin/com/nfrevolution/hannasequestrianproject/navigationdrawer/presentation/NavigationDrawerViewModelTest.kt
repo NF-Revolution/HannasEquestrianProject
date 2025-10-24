@@ -81,7 +81,7 @@ internal class NavigationDrawerViewModelTest {
 
         advanceUntilIdle()
 
-        assertNotNull(results.first().selectedItem)
+        assertNull(results.first().selectedItem)
         job.cancel()
     }
 

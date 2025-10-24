@@ -1,52 +1,62 @@
-This is a Kotlin Multiplatform project targeting Web.
+# Hanna's Equestrian Project
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that's common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple's CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+A Kotlin Multiplatform application for managing equestrian activities, horses, and stables. Built
+with Compose Multiplatform.
 
-### Build and Run Web Application
+## Architecture
 
-To build and run the development version of the web app, use the run configuration from the run widget
-in your IDE's toolbar or run it directly from the terminal:
+The project follows Clean Architecture with modular structure:
 
-- for the Wasm target in Browser (recommended):
-  - on macOS/Linux
-    ```shell
-    ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
-    ```
-  - on Windows
-    ```shell
-    .\gradlew.bat :composeApp:wasmJsBrowserDevelopmentRun
-    ```
+- **Domain**: Business logic and use cases
+- **Data**: Repository implementations and data sources
+- **Presentation**: Compose UI and ViewModels
+- **Foundation**: Reusable UI components
 
-`./gradlew kotlinUpgradeYarnLock` - to update Yarn.lock
+## Gradle Commands
 
-- for Desktop/JVM:
-  - on macOS/Linux
-    ```shell
-    ./gradlew :composeApp:jvmRun
-    ```
-  - on Windows
-    ```shell
-    .\gradlew.bat :composeApp:jvmRun
-    ```
-
-## Gradle Versions Plugin
-
-This plugin provides a task to check Gradle and dependencies for updates.
+### Development
 
 ```shell
-./gradlew checkDependencyUpdates
+# Run Web application (Wasm)
+./gradlew :composeApp:wasmJsBrowserDevelopmentRun
+
+# Run Desktop application
+./gradlew :composeApp:jvmRun
+
+# Update Yarn.lock
+./gradlew kotlinUpgradeYarnLock
 ```
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
-[Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),
-[Kotlin/Wasm](https://kotl.in/wasm/)…
+### Build
 
-We would appreciate your feedback on Compose/Web and Kotlin/Wasm in the public Slack channel [#compose-web](https://slack-chats.kotlinlang.org/c/compose-web).
-If you face any issues, please report them on [YouTrack](https://youtrack.jetbrains.com/newIssue?project=CMP).
+```shell
+# Build project
+./gradlew build
+
+# Clean build
+./gradlew clean build
+```
+
+### Testing
+
+```shell
+# Run all tests
+./gradlew test
+
+# Run tests with coverage
+./gradlew testCoverage
+```
+
+### Maintenance
+
+```shell
+# Check for dependency updates
+./gradlew checkDependencyUpdates
+
+# Format code
+./gradlew ktlintFormat
+```
+
+## License
+
+See [LICENSE](LICENSE) file for details.

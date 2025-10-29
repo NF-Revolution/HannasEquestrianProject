@@ -2,7 +2,9 @@ package com.nfrevolution.hannasequestrianproject.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.composegears.tiamat.navigation.NavDestination
 import com.nfrevolution.hannasequestrianproject.home.domain.usecase.GetHomeConfigUseCase
+import com.nfrevolution.hannasequestrianproject.navigation.featureProvider.FeatureProvider
 import org.koin.android.annotation.KoinViewModel
 import pro.respawn.flowmvi.api.Container
 import pro.respawn.flowmvi.api.MVIAction
@@ -13,6 +15,7 @@ import pro.respawn.flowmvi.plugins.reduce
 
 @KoinViewModel
 internal class HomeViewModel(
+    private val featureProvider: FeatureProvider,
     private val getHomeConfigUseCase: GetHomeConfigUseCase,
 ) : ViewModel(),
     Container<HomeUiState, HomeIntent, HomeAction> {
@@ -41,13 +44,23 @@ internal class HomeViewModel(
                 HomeIntent.OnVideoLoaded -> {
                     withState {
                         if (this is HomeUiState.VideoLoading) {
-                            updateState { HomeUiState.Success }
+                            updateState { HomeUiState.Success(videoUrl = videoUrl) }
                         }
                     }
                 }
 
                 HomeIntent.OnBoxClicked -> {
-                    action(HomeAction.NavigateToHorses)
+                    action(HomeAction.NavigateTo(featureProvider.horses))
+                }
+
+                HomeIntent.OnScreenDisposed -> {
+                    withState {
+                        if (this is HomeUiState.Success) {
+                            updateState { HomeUiState.VideoLoading(videoUrl = videoUrl) }
+                        } else {
+                            updateState { HomeUiState.ConfigLoading }
+                        }
+                    }
                 }
             }
         }
@@ -57,7 +70,7 @@ internal class HomeViewModel(
 internal sealed interface HomeUiState : MVIState {
     data object ConfigLoading : HomeUiState
     data class VideoLoading(val videoUrl: String) : HomeUiState
-    data object Success : HomeUiState
+    data class Success(val videoUrl: String) : HomeUiState
     data class Error(val message: String) : HomeUiState
 }
 
@@ -65,8 +78,11 @@ internal sealed interface HomeIntent : MVIIntent {
     data object LoadConfig : HomeIntent
     data object OnVideoLoaded : HomeIntent
     data object OnBoxClicked : HomeIntent
+    data object OnScreenDisposed : HomeIntent
 }
 
 internal sealed interface HomeAction : MVIAction {
-    data object NavigateToHorses : HomeAction
+    data class NavigateTo(
+        val destination: NavDestination<Unit>
+    ) : HomeAction
 }

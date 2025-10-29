@@ -1,5 +1,8 @@
 package com.nfrevolution.hannasequestrianproject.home.presentation
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -12,7 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,18 +27,29 @@ import androidx.compose.ui.graphics.Color
 import com.composegears.tiamat.compose.ComposeNavDestination
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
+import com.composegears.tiamat.compose.popToTop
 import com.composegears.tiamat.navigation.NavController
 import com.nfrevolution.hannasequestrianproject.core.localprovider.orientation.LocalScreenOrientation
 import com.nfrevolution.hannasequestrianproject.core.localprovider.orientation.ScreenOrientation
 import com.nfrevolution.hannasequestrianproject.foundation.CommonTopBar
 import com.nfrevolution.hannasequestrianproject.foundation.NestedComposeViewport
+import com.nfrevolution.hannasequestrianproject.foundation.SolarRays
 import com.nfrevolution.hannasequestrianproject.foundation.VideoPlayer
 import com.nfrevolution.hannasequestrianproject.navigationdrawer.presentation.NavigationDrawerScreenContent
+import com.nfrevolution.hannasequestrianproject.resources.Res
+import com.nfrevolution.hannasequestrianproject.resources.app_title
 import com.nfrevolution.hannasequestrianproject.resources.icons.HannasEquestrianProject
 import com.nfrevolution.hannasequestrianproject.resources.icons.filled.JumpingHorseLogo
 import com.nfrevolution.hannasequestrianproject.theme.AppTheme
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import pro.respawn.flowmvi.compose.dsl.subscribe
+
+private const val LOADING_ICON_SIZE_FRACTION = 0.36f
+private const val SOLAR_RAYS_SIZE_MULTIPLIER = 1.12f
+private const val FADE_OUT_ANIMATION_DURATION_MILLIS = 3000
+private const val VIDEO_MIN_WIDTH_PX = 640
+private const val VIDEO_MIN_HEIGHT_PX = 360
 
 public val HomeScreen: ComposeNavDestination<Unit> by navDestination {
     val navController = navController()
@@ -49,21 +63,20 @@ public fun HomeScreenContent(navController: NavController) {
     val orientation = LocalScreenOrientation.current
     val viewModel = koinViewModel<HomeViewModel>()
     val state by viewModel.store.subscribe { action ->
-        handleAction(action)
+        handleAction(action, navController)
     }
     var videoUrl by remember { mutableStateOf("") }
-    var isIconVisible by remember { mutableStateOf(true) }
 
-    println("videoUrl = $videoUrl, state $state")
-
-    LaunchedEffect(Unit) {
+    DisposableEffect(Unit) {
         viewModel.store.intent(HomeIntent.LoadConfig)
+        onDispose {
+            viewModel.store.intent(HomeIntent.OnScreenDisposed)
+        }
     }
 
     updateStateVariables(
         state = state,
         onVideoUrlUpdate = { url -> videoUrl = url },
-        onIconVisibilityUpdate = { visible -> isIconVisible = visible }
     )
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -74,7 +87,7 @@ public fun HomeScreenContent(navController: NavController) {
         HomeScreenOverlay(
             navController = navController,
             drawerState = drawerState,
-            isIconVisible = isIconVisible,
+            isIconVisible = state !is HomeUiState.Success,
             orientation = orientation,
             onBoxClicked = { viewModel.store.intent(HomeIntent.OnBoxClicked) }
         )
@@ -95,8 +108,8 @@ private fun BackgroundVideo(
             loop = true,
             muted = true,
             posterUrl = null,
-            minWidthPx = 640,
-            minHeightPx = 360,
+            minWidthPx = VIDEO_MIN_WIDTH_PX,
+            minHeightPx = VIDEO_MIN_HEIGHT_PX,
             onLoaded = onVideoLoaded
         )
     }
@@ -137,8 +150,10 @@ private fun HomeScaffold(
     Scaffold(
         topBar = {
             CommonTopBar(
-                title = "Home",
-                drawerState = drawerState
+                title = stringResource(Res.string.app_title),
+                drawerState = drawerState,
+                containerColor = Color.Transparent,
+                titleContainerColor = MaterialTheme.colorScheme.surface,
             )
         },
         containerColor = Color.Transparent
@@ -161,25 +176,27 @@ private fun LoadingIconOverlay(
     orientation: ScreenOrientation,
     isVisible: Boolean
 ) {
-    val iconFraction = remember(orientation) {
-        when (orientation) {
-            ScreenOrientation.PORTRAIT -> 0.64f
-            ScreenOrientation.LANDSCAPE -> 0.36f
-        }
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.onSurface),
-        contentAlignment = Alignment.Center,
+    AnimatedVisibility(
+        visible = isVisible,
+        exit = fadeOut(animationSpec = tween(durationMillis = FADE_OUT_ANIMATION_DURATION_MILLIS))
     ) {
-        Icon(
-            modifier = Modifier.fillMaxSize(iconFraction),
-            imageVector = HannasEquestrianProject.Filled.JumpingHorseLogo,
-            contentDescription = "Jumping Horse Logo",
-            tint = MaterialTheme.colorScheme.surface,
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.onSurface),
+            contentAlignment = Alignment.Center,
+        ) {
+            SolarRays(
+                modifier = Modifier.fillMaxSize(LOADING_ICON_SIZE_FRACTION * SOLAR_RAYS_SIZE_MULTIPLIER),
+                color = MaterialTheme.colorScheme.surface
+            )
+            Icon(
+                modifier = Modifier.fillMaxSize(LOADING_ICON_SIZE_FRACTION),
+                imageVector = HannasEquestrianProject.Filled.JumpingHorseLogo,
+                contentDescription = "Jumping Horse Logo",
+                tint = MaterialTheme.colorScheme.surface,
+            )
+        }
     }
 }
 
@@ -202,7 +219,6 @@ private fun InteractionLayer(
 private fun updateStateVariables(
     state: HomeUiState,
     onVideoUrlUpdate: (String) -> Unit,
-    onIconVisibilityUpdate: (Boolean) -> Unit
 ) {
     when (state) {
         is HomeUiState.VideoLoading -> {
@@ -210,18 +226,18 @@ private fun updateStateVariables(
         }
 
         is HomeUiState.ConfigLoading -> Unit
-        is HomeUiState.Success -> {
-            onIconVisibilityUpdate(false)
-        }
-
+        is HomeUiState.Success -> Unit
         is HomeUiState.Error -> Unit
     }
 }
 
-private fun handleAction(action: HomeAction) {
+private fun handleAction(
+    action: HomeAction,
+    navController: NavController
+) {
     when (action) {
-        is HomeAction.NavigateToHorses -> {
-            println("NavigateToHorses")
+        is HomeAction.NavigateTo -> {
+            navController.popToTop(action.destination)
         }
     }
 }

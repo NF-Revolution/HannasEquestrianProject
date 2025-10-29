@@ -75,7 +75,7 @@ internal fun createCommonTypography(): Typography {
             fontWeight = FontWeight.Medium,
             fontSize = 22.sp,
             lineHeight = 28.sp,
-            letterSpacing = 0.sp
+            letterSpacing = 1.sp
         ),
         titleMedium = TextStyle(
             fontFamily = fontFamily,

@@ -75,6 +75,9 @@ Generate code, corrections, and refactorings that comply with the basic principl
   - Less than 200 instructions.
   - Less than 10 public methods.
   - Less than 10 properties.
+- Don't create companion objects for constants.
+  - Declare constants as top-level private const val above the class.
+  - Use UPPERCASE naming for constants.
 
 ### Exceptions
 

@@ -29,5 +29,7 @@ buildkonfig {
         buildConfigField(STRING, "instagramUrl", properties.propertyString("INSTAGRAM_URL"))
         buildConfigField(STRING, "youtubeUrl", properties.propertyString("YOUTUBE_URL"))
         buildConfigField(STRING, "tiktokUrl", properties.propertyString("TIKTOK_URL"))
+        buildConfigField(STRING, "storageUrl", properties.propertyString("STORAGE_URL"))
+        buildConfigField(STRING, "databaseUrlHost", properties.propertyString("DATABASE_URL_HOST"))
     }
 }

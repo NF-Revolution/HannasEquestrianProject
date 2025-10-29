@@ -15,6 +15,7 @@ public actual fun VideoPlayer(
     posterUrl: String?,
     minWidthPx: Int,
     minHeightPx: Int,
+    onLoaded: () -> Unit,
 ) {
     Box(modifier = modifier)
 }

@@ -1,4 +1,4 @@
-package com.nfrevolution.hannasequestrianproject.core
+package com.nfrevolution.hannasequestrianproject.core.localprovider.drawer
 
 import androidx.compose.material3.DrawerState
 import androidx.compose.runtime.ProvidableCompositionLocal

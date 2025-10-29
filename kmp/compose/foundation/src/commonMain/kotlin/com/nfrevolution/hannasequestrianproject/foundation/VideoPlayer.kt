@@ -14,4 +14,5 @@ public expect fun VideoPlayer(
     posterUrl: String?,
     minWidthPx: Int,
     minHeightPx: Int,
+    onLoaded: () -> Unit = {},
 )

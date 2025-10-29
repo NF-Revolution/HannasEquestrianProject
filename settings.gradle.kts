@@ -38,6 +38,7 @@ include(":composeApp")
 // KMP Base Modules
 include(":kmp:base:core")
 include(":kmp:base:navigation")
+include(":kmp:base:network")
 
 // KMP Compose Modules
 include(":kmp:compose:theme")
@@ -48,6 +49,7 @@ include(":kmp:compose:resources")
 include(":kmp:features:root")
 
 include(":kmp:features:home:domain")
+include(":kmp:features:home:data")
 include(":kmp:features:home:presentation")
 
 include(":kmp:features:horses:domain")

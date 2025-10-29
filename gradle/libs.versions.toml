@@ -21,6 +21,7 @@ kotlin-browser = "0.4"
 gradle-versions = "0.53.0"
 buildkonfig = "0.17.1"
 mockk = "1.14.6"
+coil = "3.3.0"
 
 [libraries]
 # Kotlin
@@ -88,6 +89,10 @@ ktor-client-contentnegotiation = { module = "io.ktor:ktor-client-content-negotia
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+# Coil
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
 [plugins]
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.4" }

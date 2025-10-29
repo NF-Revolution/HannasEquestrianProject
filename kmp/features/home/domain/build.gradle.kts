@@ -7,6 +7,8 @@ plugins {
 kotlin {
     sourceSets {
         commonDependencies {
+            implementation(libs.koin.core)
+            implementation(libs.koin.annotations)
         }
     }
 }

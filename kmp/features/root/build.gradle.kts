@@ -11,11 +11,14 @@ kotlin {
         commonDependencies {
             implementation(projects.kmp.base.core)
             implementation(projects.kmp.base.navigation)
+            implementation(projects.kmp.base.network)
 
             implementation(projects.kmp.compose.foundation)
             implementation(projects.kmp.compose.theme)
 
             implementation(projects.kmp.features.navigationDrawer.presentation)
+            implementation(projects.kmp.features.home.domain)
+            implementation(projects.kmp.features.home.data)
             implementation(projects.kmp.features.home.presentation)
             implementation(projects.kmp.features.horses.presentation)
             implementation(projects.kmp.features.stables.presentation)

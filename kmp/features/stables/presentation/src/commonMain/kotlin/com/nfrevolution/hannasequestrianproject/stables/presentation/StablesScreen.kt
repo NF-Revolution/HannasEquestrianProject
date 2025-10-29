@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.composegears.tiamat.compose.ComposeNavDestination
 import com.composegears.tiamat.compose.navDestination
-import com.nfrevolution.hannasequestrianproject.core.LocalDrawerState
+import com.nfrevolution.hannasequestrianproject.core.localprovider.drawer.LocalDrawerState
 import com.nfrevolution.hannasequestrianproject.foundation.CommonTopBar
 
 public val StablesScreen: ComposeNavDestination<Unit> by navDestination {

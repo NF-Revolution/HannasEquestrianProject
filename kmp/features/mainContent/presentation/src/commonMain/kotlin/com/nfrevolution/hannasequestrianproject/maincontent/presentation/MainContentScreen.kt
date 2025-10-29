@@ -1,5 +1,6 @@
 package com.nfrevolution.hannasequestrianproject.maincontent.presentation
 
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
@@ -10,7 +11,9 @@ import com.composegears.tiamat.compose.Navigation
 import com.composegears.tiamat.compose.navigationPlatformDefault
 import com.composegears.tiamat.compose.rememberNavController
 import com.composegears.tiamat.navigation.NavDestination
-import com.nfrevolution.hannasequestrianproject.core.LocalDrawerState
+import com.nfrevolution.hannasequestrianproject.core.localprovider.drawer.LocalDrawerState
+import com.nfrevolution.hannasequestrianproject.core.localprovider.orientation.LocalScreenOrientation
+import com.nfrevolution.hannasequestrianproject.core.localprovider.orientation.ScreenOrientation
 import com.nfrevolution.hannasequestrianproject.navigationdrawer.presentation.NavigationDrawerScreenContent
 
 @Composable
@@ -23,18 +26,28 @@ public fun MainContentScreenContent(
     )
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
-    CompositionLocalProvider(LocalDrawerState provides drawerState) {
-        NavigationDrawerScreenContent(
-            navController,
-            drawerState,
+    BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
+        val screenOrientation = if (maxWidth > maxHeight) {
+            ScreenOrientation.LANDSCAPE
+        } else {
+            ScreenOrientation.PORTRAIT
+        }
+
+        CompositionLocalProvider(
+            LocalDrawerState provides drawerState,
+            LocalScreenOrientation provides screenOrientation
         ) {
-            Navigation(
-                navController = navController,
-                modifier = Modifier
-                    .fillMaxSize(),
-                destinations = destinations,
-                contentTransformProvider = { navigationPlatformDefault(it) }
-            )
+            NavigationDrawerScreenContent(
+                navController,
+                drawerState,
+            ) {
+                Navigation(
+                    navController = navController,
+                    modifier = Modifier.fillMaxSize(),
+                    destinations = destinations,
+                    contentTransformProvider = { navigationPlatformDefault(it) }
+                )
+            }
         }
     }
 }

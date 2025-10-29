@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.WebElementView
 import kotlinx.browser.document
 import org.w3c.dom.HTMLVideoElement
+import org.w3c.dom.events.Event
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalWasmJsInterop::class)
 @Composable
@@ -19,6 +20,7 @@ public actual fun VideoPlayer(
     posterUrl: String?,
     minWidthPx: Int,
     minHeightPx: Int,
+    onLoaded: () -> Unit,
 ) {
     WebElementView(
         factory = {
@@ -31,7 +33,8 @@ public actual fun VideoPlayer(
                     loop = loop,
                     muted = muted,
                     posterUrl = posterUrl,
-                    autoPlay = autoPlay
+                    autoPlay = autoPlay,
+                    onLoaded = onLoaded
                 )
             }
         },
@@ -44,7 +47,8 @@ public actual fun VideoPlayer(
                 loop = loop,
                 muted = muted,
                 posterUrl = posterUrl,
-                autoPlay = autoPlay
+                autoPlay = autoPlay,
+                onLoaded = onLoaded
             )
         }
     )
@@ -76,7 +80,8 @@ private fun HTMLVideoElement.configureVideoElement(
     loop: Boolean,
     muted: Boolean,
     posterUrl: String?,
-    autoPlay: Boolean
+    autoPlay: Boolean,
+    onLoaded: () -> Unit
 ) {
     this.controls = controls
     this.loop = loop
@@ -88,6 +93,9 @@ private fun HTMLVideoElement.configureVideoElement(
     }
     if (src != urlOrUri) {
         src = urlOrUri
+        addEventListener("loadeddata", { _: Event ->
+            onLoaded()
+        })
     }
     if (autoPlay) {
         if (!this.muted) {

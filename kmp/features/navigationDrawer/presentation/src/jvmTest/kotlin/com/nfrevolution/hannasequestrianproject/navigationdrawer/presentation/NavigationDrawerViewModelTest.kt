@@ -14,7 +14,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
@@ -42,7 +41,7 @@ internal class NavigationDrawerViewModelTest {
     private lateinit var mockAboutDestination: NavDestination<Unit>
     private lateinit var viewModel: NavigationDrawerViewModel
 
-    private val testDispatcher = StandardTestDispatcher()
+    private val testDispatcher = UnconfinedTestDispatcher()
 
     @BeforeTest
     fun setup() {
@@ -144,78 +143,78 @@ internal class NavigationDrawerViewModelTest {
     @Test
     fun `should update selected item and emit NavigateTo action when navigating to menu item`() =
         runTest {
-        // Given
-        val menuItem = DrawerMenuItem(
-            title = Res.string.menu_horses,
-            destination = mockHorsesDestination
-        )
-        val results = mutableListOf<NavigationDrawerUiState>()
-        val actions = mutableListOf<NavigationDrawerAction>()
+            // Given
+            val menuItem = DrawerMenuItem(
+                title = Res.string.menu_horses,
+                destination = mockHorsesDestination
+            )
+            val results = mutableListOf<NavigationDrawerUiState>()
+            val actions = mutableListOf<NavigationDrawerAction>()
 
             val stateJob = launch(testDispatcher) {
-            viewModel.store.collect {
-                states.toList(results)
+                viewModel.store.collect {
+                    states.toList(results)
+                }
             }
-        }
 
             val actionJob = launch(testDispatcher) {
                 viewModel.store.collect {
-                this.actions.toList(actions)
+                    this.actions.toList(actions)
+                }
             }
-        }
 
-        // When
-        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(menuItem))
-        advanceUntilIdle()
+            // When
+            viewModel.store.intent(NavigationDrawerIntent.NavigateTo(menuItem))
+            advanceUntilIdle()
 
-        // Then
-        assertEquals(menuItem, results.last().selectedItem)
-        assertTrue(actions.isNotEmpty())
-        val action = actions.first()
-        assertTrue(action is NavigationDrawerAction.NavigateTo)
-        assertEquals(mockHorsesDestination, action.destination)
+            // Then
+            assertEquals(menuItem, results.last().selectedItem)
+            assertTrue(actions.isNotEmpty())
+            val action = actions.first()
+            assertTrue(action is NavigationDrawerAction.NavigateTo)
+            assertEquals(mockHorsesDestination, action.destination)
             stateJob.cancel()
             actionJob.cancel()
-    }
+        }
 
     @Test
     fun `should clear selected item and emit NavigateTo home action when navigating to home`() =
         runTest {
-        // Given
-        val menuItem = DrawerMenuItem(
-            title = Res.string.menu_horses,
-            destination = mockHorsesDestination
-        )
-        val results = mutableListOf<NavigationDrawerUiState>()
-        val actions = mutableListOf<NavigationDrawerAction>()
+            // Given
+            val menuItem = DrawerMenuItem(
+                title = Res.string.menu_horses,
+                destination = mockHorsesDestination
+            )
+            val results = mutableListOf<NavigationDrawerUiState>()
+            val actions = mutableListOf<NavigationDrawerAction>()
 
             val stateJob = launch(testDispatcher) {
-            viewModel.store.collect {
-                states.toList(results)
+                viewModel.store.collect {
+                    states.toList(results)
+                }
             }
-        }
 
             val actionJob = launch(testDispatcher) {
                 viewModel.store.collect {
-                this.actions.toList(actions)
+                    this.actions.toList(actions)
+                }
             }
-        }
 
-        // When
-        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(menuItem))
-        advanceUntilIdle()
-        viewModel.store.intent(NavigationDrawerIntent.NavigateToHome)
-        advanceUntilIdle()
+            // When
+            viewModel.store.intent(NavigationDrawerIntent.NavigateTo(menuItem))
+            advanceUntilIdle()
+            viewModel.store.intent(NavigationDrawerIntent.NavigateToHome)
+            advanceUntilIdle()
 
-        // Then
-        assertNull(results.last().selectedItem)
-        assertTrue(actions.size >= 2)
-        val homeAction = actions.last()
-        assertTrue(homeAction is NavigationDrawerAction.NavigateTo)
-        assertEquals(mockHomeDestination, homeAction.destination)
+            // Then
+            assertNull(results.last().selectedItem)
+            assertTrue(actions.size >= 2)
+            val homeAction = actions.last()
+            assertTrue(homeAction is NavigationDrawerAction.NavigateTo)
+            assertEquals(mockHomeDestination, homeAction.destination)
             stateJob.cancel()
             actionJob.cancel()
-    }
+        }
 
     @Test
     fun `should handle multiple navigation intents sequentially`() = runTest {

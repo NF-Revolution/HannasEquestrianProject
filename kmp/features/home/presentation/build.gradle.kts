@@ -12,6 +12,7 @@ kotlin {
             implementation(projects.kmp.features.home.domain)
             implementation(projects.kmp.features.home.data)
             implementation(projects.kmp.features.navigationDrawer.presentation)
+            implementation(projects.kmp.features.navigationDrawer.domain)
 
             implementation(projects.kmp.base.navigation)
             implementation(projects.kmp.base.core)

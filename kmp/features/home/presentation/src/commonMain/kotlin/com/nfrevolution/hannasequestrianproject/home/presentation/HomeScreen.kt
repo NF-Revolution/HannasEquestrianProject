@@ -27,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import com.composegears.tiamat.compose.ComposeNavDestination
 import com.composegears.tiamat.compose.navController
 import com.composegears.tiamat.compose.navDestination
-import com.composegears.tiamat.compose.popToTop
 import com.composegears.tiamat.navigation.NavController
 import com.nfrevolution.hannasequestrianproject.core.localprovider.orientation.LocalScreenOrientation
 import com.nfrevolution.hannasequestrianproject.core.localprovider.orientation.ScreenOrientation
@@ -62,9 +61,7 @@ public fun HomeScreenContent(navController: NavController) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val orientation = LocalScreenOrientation.current
     val viewModel = koinViewModel<HomeViewModel>()
-    val state by viewModel.store.subscribe { action ->
-        handleAction(action, navController)
-    }
+    val state by viewModel.store.subscribe { }
     var videoUrl by remember { mutableStateOf("") }
 
     DisposableEffect(Unit) {
@@ -228,16 +225,5 @@ private fun updateStateVariables(
         is HomeUiState.ConfigLoading -> Unit
         is HomeUiState.Success -> Unit
         is HomeUiState.Error -> Unit
-    }
-}
-
-private fun handleAction(
-    action: HomeAction,
-    navController: NavController
-) {
-    when (action) {
-        is HomeAction.NavigateTo -> {
-            navController.popToTop(action.destination)
-        }
     }
 }

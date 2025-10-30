@@ -1,4 +1,4 @@
-package com.nfrevolution.hannasequestrianproject.navigationdrawer.di
+package com.nfrevolution.hannasequestrianproject.navigationdrawer.presentation.di
 
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module

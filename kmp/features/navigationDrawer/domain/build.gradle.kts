@@ -7,6 +7,7 @@ plugins {
 kotlin {
     sourceSets {
         commonDependencies {
+            implementation(projects.kmp.base.navigation)
         }
     }
 }

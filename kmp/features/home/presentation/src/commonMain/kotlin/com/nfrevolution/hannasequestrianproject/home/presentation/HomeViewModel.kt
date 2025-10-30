@@ -2,9 +2,9 @@ package com.nfrevolution.hannasequestrianproject.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.composegears.tiamat.navigation.NavDestination
 import com.nfrevolution.hannasequestrianproject.home.domain.usecase.GetHomeConfigUseCase
 import com.nfrevolution.hannasequestrianproject.navigation.featureProvider.FeatureProvider
+import com.nfrevolution.hannasequestrianproject.navigationdrawer.domain.drawerNavigator.DrawerNavigator
 import org.koin.android.annotation.KoinViewModel
 import pro.respawn.flowmvi.api.Container
 import pro.respawn.flowmvi.api.MVIAction
@@ -15,6 +15,7 @@ import pro.respawn.flowmvi.plugins.reduce
 
 @KoinViewModel
 internal class HomeViewModel(
+    private val drawerNavigator: DrawerNavigator,
     private val featureProvider: FeatureProvider,
     private val getHomeConfigUseCase: GetHomeConfigUseCase,
 ) : ViewModel(),
@@ -50,7 +51,7 @@ internal class HomeViewModel(
                 }
 
                 HomeIntent.OnBoxClicked -> {
-                    action(HomeAction.NavigateTo(featureProvider.horses))
+                    drawerNavigator.navigateTo(featureProvider.horses)
                 }
 
                 HomeIntent.OnScreenDisposed -> {
@@ -81,8 +82,4 @@ internal sealed interface HomeIntent : MVIIntent {
     data object OnScreenDisposed : HomeIntent
 }
 
-internal sealed interface HomeAction : MVIAction {
-    data class NavigateTo(
-        val destination: NavDestination<Unit>
-    ) : HomeAction
-}
+internal sealed interface HomeAction : MVIAction

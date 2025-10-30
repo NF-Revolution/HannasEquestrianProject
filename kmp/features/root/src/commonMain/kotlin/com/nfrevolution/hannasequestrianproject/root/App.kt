@@ -10,7 +10,7 @@ import com.nfrevolution.hannasequestrianproject.home.presentation.di.HomePresent
 import com.nfrevolution.hannasequestrianproject.horses.presentation.HorsesScreen
 import com.nfrevolution.hannasequestrianproject.maincontent.di.MainContentModule
 import com.nfrevolution.hannasequestrianproject.maincontent.presentation.MainContentScreenContent
-import com.nfrevolution.hannasequestrianproject.navigationdrawer.di.NavigationDrawerModule
+import com.nfrevolution.hannasequestrianproject.navigationdrawer.presentation.di.NavigationDrawerModule
 import com.nfrevolution.hannasequestrianproject.network.di.NetworkModule
 import com.nfrevolution.hannasequestrianproject.root.di.RootModule
 import com.nfrevolution.hannasequestrianproject.stables.presentation.StablesScreen

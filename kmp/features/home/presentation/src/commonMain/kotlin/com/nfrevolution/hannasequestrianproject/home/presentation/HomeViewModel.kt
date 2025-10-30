@@ -35,8 +35,11 @@ internal class HomeViewModel(
                         }
                         .onFailure { error ->
                             updateState {
+                                val msg = error.message ?: "Unknown error"
+                                println("Error loading config: $msg")
+
                                 HomeUiState.Error(
-                                    message = error.message ?: "Unknown error"
+                                    message = msg
                                 )
                             }
                         }

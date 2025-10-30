@@ -31,7 +31,7 @@ internal class HomeConfigMapperTest {
         // Arrange
         val inputDto = HomeConfigDto(introVideoPath = "videos/intro.mp4")
         val expectedUrl = "https://storage.googleapis.com/videos%2Fintro.mp4?alt=media"
-        every { any<String>().buildStorageUrl() } returns expectedUrl
+        every { "videos/intro.mp4".buildStorageUrl() } returns expectedUrl
 
         // Act
         val result: HomeConfig = mapper.toDomain(inputDto)
@@ -45,7 +45,7 @@ internal class HomeConfigMapperTest {
         // Arrange
         val inputDto = HomeConfigDto(introVideoPath = "")
         val expectedUrl = "https://storage.googleapis.com/?alt=media"
-        every { any<String>().buildStorageUrl() } returns expectedUrl
+        every { "".buildStorageUrl() } returns expectedUrl
 
         // Act
         val result: HomeConfig = mapper.toDomain(inputDto)
@@ -60,7 +60,7 @@ internal class HomeConfigMapperTest {
         val inputDto = HomeConfigDto(introVideoPath = "assets/videos/intro/main.mp4")
         val expectedUrl =
             "https://storage.googleapis.com/assets%2Fvideos%2Fintro%2Fmain.mp4?alt=media"
-        every { any<String>().buildStorageUrl() } returns expectedUrl
+        every { "assets/videos/intro/main.mp4".buildStorageUrl() } returns expectedUrl
 
         // Act
         val result: HomeConfig = mapper.toDomain(inputDto)

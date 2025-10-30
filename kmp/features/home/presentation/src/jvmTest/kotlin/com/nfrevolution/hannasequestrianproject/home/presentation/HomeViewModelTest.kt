@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
@@ -35,7 +34,7 @@ internal class HomeViewModelTest {
     private lateinit var mockHorsesDestination: NavDestination<Unit>
     private lateinit var viewModel: HomeViewModel
 
-    private val testDispatcher = StandardTestDispatcher()
+    private val testDispatcher = UnconfinedTestDispatcher()
 
     private val testVideoUrl = "https://example.com/video.mp4"
     private val testHomeConfig = HomeConfig(introVideoUrl = testVideoUrl)
@@ -69,7 +68,7 @@ internal class HomeViewModelTest {
         val results = mutableListOf<HomeUiState>()
 
         val job = launch(UnconfinedTestDispatcher(testScheduler)) {
-            viewModel.store.collect {
+            viewModel.store.collect { state ->
                 states.toList(results)
             }
         }
@@ -171,6 +170,7 @@ internal class HomeViewModelTest {
         advanceUntilIdle()
 
         val expectedList = listOf(
+            HomeUiState.ConfigLoading,
             HomeUiState.VideoLoading(testVideoUrl),
             HomeUiState.Success(testVideoUrl),
         )

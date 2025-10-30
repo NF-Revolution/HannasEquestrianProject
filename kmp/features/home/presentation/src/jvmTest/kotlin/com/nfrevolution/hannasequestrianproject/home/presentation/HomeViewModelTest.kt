@@ -68,7 +68,7 @@ internal class HomeViewModelTest {
         val results = mutableListOf<HomeUiState>()
 
         val job = launch(UnconfinedTestDispatcher(testScheduler)) {
-            viewModel.store.collect { state ->
+            viewModel.store.collect {
                 states.toList(results)
             }
         }

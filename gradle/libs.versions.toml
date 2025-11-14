@@ -1,10 +1,6 @@
 [versions]
-androidx-activity = "1.10.2"
-androidx-appcompat = "1.7.1"
-androidx-constraintlayout = "2.2.1"
-androidx-core = "1.16.1"
 androidx-lifecycle = "2.9.6"
-compose-multiplatform = "1.9.3"
+compose-multiplatform = "1.10.0-beta01"
 compose-hot-reload="1.0.0-rc03"
 kotlin = "2.2.21"
 kotlinx-coroutines = "1.10.2"
@@ -37,15 +33,7 @@ kotlin-browser = { module = "org.jetbrains.kotlinx:kotlinx-browser", version.ref
 # Testing
 mockk-core = { module = "io.mockk:mockk", version.ref = "mockk" }
 
-# AndroidX Core
-androidx-core-splashscreen = "androidx.core:core-splashscreen:1.0.1"
-androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
-androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
-androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "androidx-constraintlayout" }
-
 # AndroidX Compose & Lifecycle
-androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
-androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 
 
@@ -63,7 +51,6 @@ kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", v
 
 #Koin - using explicit versions for multiplatform compatibility
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin-version" }
-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin-version" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-version" }
 koin-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin-version" }
 koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin-annotations" }
@@ -95,8 +82,8 @@ coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" 
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
 [plugins]
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.4" }
-google-services = { id = "com.google.gms.google-services", version = "4.4.3" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version = "3.0.6" }
+google-services = { id = "com.google.gms.google-services", version = "4.4.4" }
 jetbrains-compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 jetbrains-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

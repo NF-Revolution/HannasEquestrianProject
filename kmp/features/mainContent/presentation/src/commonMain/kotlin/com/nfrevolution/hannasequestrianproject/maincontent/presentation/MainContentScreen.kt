@@ -6,6 +6,7 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.composegears.tiamat.compose.Navigation
 import com.composegears.tiamat.compose.navigationPlatformDefault
@@ -22,8 +23,6 @@ public fun MainContentScreenContent(
     startDestination: NavDestination<*>,
     destinationRoutes: Map<NavDestination<*>, String>,
 ) {
-    val destinations = destinationRoutes.keys.toTypedArray()
-
     val navController = rememberNavController(
         startDestination = startDestination,
     )
@@ -49,7 +48,7 @@ public fun MainContentScreenContent(
                 Navigation(
                     navController = navController,
                     modifier = Modifier.fillMaxSize(),
-                    destinations = destinations,
+                    destinations = remember(destinationRoutes) { destinationRoutes.keys.toTypedArray() },
                     contentTransformProvider = { navigationPlatformDefault(it) }
                 )
             }

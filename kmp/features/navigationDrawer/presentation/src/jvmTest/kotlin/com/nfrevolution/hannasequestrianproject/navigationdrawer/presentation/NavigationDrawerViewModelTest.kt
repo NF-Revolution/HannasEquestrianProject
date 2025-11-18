@@ -371,4 +371,159 @@ internal class NavigationDrawerViewModelTest {
         assertEquals(initialStateCount, results.size)
         job.cancel()
     }
+
+    @Test
+    fun `should sync selected item to null when current destination is home`() = runTest {
+        // Given
+        val horsesItem = DrawerMenuItem(
+            title = Res.string.menu_horses,
+            destination = mockHorsesDestination
+        )
+        val results = mutableListOf<NavigationDrawerUiState>()
+
+        val job = launch(testDispatcher) {
+            viewModel.store.collect {
+                states.toList(results)
+            }
+        }
+
+        // Set initial state with a selected item
+        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(horsesItem))
+        advanceUntilIdle()
+        assertEquals(horsesItem, results.last().selectedItem)
+
+        // When - sync with home destination
+        viewModel.store.intent(NavigationDrawerIntent.SyncSelectedItem(mockHomeDestination))
+        advanceUntilIdle()
+
+        // Then
+        assertNull(results.last().selectedItem)
+        job.cancel()
+    }
+
+    @Test
+    fun `should sync selected item to matching menu item when current destination matches`() =
+        runTest {
+            // Given
+            val results = mutableListOf<NavigationDrawerUiState>()
+
+            val job = launch(testDispatcher) {
+                viewModel.store.collect {
+                    states.toList(results)
+                }
+            }
+
+            advanceUntilIdle()
+            assertNull(results.last().selectedItem)
+
+            // When - sync with horses destination
+            viewModel.store.intent(NavigationDrawerIntent.SyncSelectedItem(mockHorsesDestination))
+            advanceUntilIdle()
+
+            // Then
+            assertNotNull(results.last().selectedItem)
+            assertEquals(Res.string.menu_horses, results.last().selectedItem?.title)
+            assertEquals(mockHorsesDestination, results.last().selectedItem?.destination)
+            job.cancel()
+        }
+
+    @Test
+    fun `should sync selected item to null when current destination does not match any drawer item`() =
+        runTest {
+            // Given
+            val horsesItem = DrawerMenuItem(
+                title = Res.string.menu_horses,
+                destination = mockHorsesDestination
+            )
+            val unknownDestination = mockk<NavDestination<Unit>>(relaxed = true)
+            val results = mutableListOf<NavigationDrawerUiState>()
+
+            val job = launch(testDispatcher) {
+                viewModel.store.collect {
+                    states.toList(results)
+                }
+            }
+
+            // Set initial state with a selected item
+            viewModel.store.intent(NavigationDrawerIntent.NavigateTo(horsesItem))
+            advanceUntilIdle()
+            assertEquals(horsesItem, results.last().selectedItem)
+
+            // When - sync with unknown destination
+            viewModel.store.intent(NavigationDrawerIntent.SyncSelectedItem(unknownDestination))
+            advanceUntilIdle()
+
+            // Then
+            assertNull(results.last().selectedItem)
+            job.cancel()
+        }
+
+    @Test
+    fun `should not update state when syncing to the same selected item`() = runTest {
+        // Given
+        val horsesItem = DrawerMenuItem(
+            title = Res.string.menu_horses,
+            destination = mockHorsesDestination
+        )
+        val results = mutableListOf<NavigationDrawerUiState>()
+
+        val job = launch(testDispatcher) {
+            viewModel.store.collect {
+                states.toList(results)
+            }
+        }
+
+        // Set initial state with horses selected
+        viewModel.store.intent(NavigationDrawerIntent.NavigateTo(horsesItem))
+        advanceUntilIdle()
+        val statesAfterNav = results.size
+
+        // When - sync with the same destination
+        viewModel.store.intent(NavigationDrawerIntent.SyncSelectedItem(mockHorsesDestination))
+        advanceUntilIdle()
+
+        // Then - no new state should be emitted
+        assertEquals(statesAfterNav, results.size)
+        assertEquals(horsesItem.title, results.last().selectedItem?.title)
+        job.cancel()
+    }
+
+    @Test
+    fun `should sync through multiple destination changes correctly`() = runTest {
+        // Given
+        val results = mutableListOf<NavigationDrawerUiState>()
+
+        val job = launch(testDispatcher) {
+            viewModel.store.collect {
+                states.toList(results)
+            }
+        }
+
+        // When & Then
+        // Start at home
+        advanceUntilIdle()
+        assertNull(results.last().selectedItem)
+
+        // Sync to horses
+        viewModel.store.intent(NavigationDrawerIntent.SyncSelectedItem(mockHorsesDestination))
+        advanceUntilIdle()
+        assertEquals(Res.string.menu_horses, results.last().selectedItem?.title)
+
+        // Sync to stables
+        viewModel.store.intent(NavigationDrawerIntent.SyncSelectedItem(mockStablesDestination))
+        advanceUntilIdle()
+        assertEquals(Res.string.menu_stables, results.last().selectedItem?.title)
+
+        // Sync to about
+        viewModel.store.intent(NavigationDrawerIntent.SyncSelectedItem(mockAboutDestination))
+        advanceUntilIdle()
+        assertEquals(Res.string.menu_about, results.last().selectedItem?.title)
+
+        // Sync back to home
+        viewModel.store.intent(NavigationDrawerIntent.SyncSelectedItem(mockHomeDestination))
+        advanceUntilIdle()
+        assertNull(results.last().selectedItem)
+
+        job.cancel()
+    }
 }

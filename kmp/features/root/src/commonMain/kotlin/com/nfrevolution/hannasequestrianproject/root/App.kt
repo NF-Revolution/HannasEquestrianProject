@@ -38,11 +38,11 @@ public fun App() {
             Surface {
                 MainContentScreenContent(
                     startDestination = HomeScreen,
-                    destinations = arrayOf(
-                        HomeScreen,
-                        HorsesScreen,
-                        StablesScreen,
-                        AboutScreen,
+                    destinationRoutes = mapOf(
+                        HomeScreen to "/",
+                        HorsesScreen to "/horses",
+                        StablesScreen to "/stables",
+                        AboutScreen to "/about"
                     )
                 )
             }

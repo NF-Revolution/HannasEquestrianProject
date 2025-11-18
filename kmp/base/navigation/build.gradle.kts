@@ -9,6 +9,8 @@ kotlin {
 
     sourceSets {
         commonDependencies {
+            implementation(projects.kmp.base.core)
+
             api(libs.tiamat)
 
             implementation(compose.foundation)

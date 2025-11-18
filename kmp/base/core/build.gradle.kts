@@ -1,4 +1,5 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.BOOLEAN
 import com.nfrevolution.hannasequestrianproject.com.nfrevolution.hannasequestrianproject.extension.loadProperties
 import com.nfrevolution.hannasequestrianproject.com.nfrevolution.hannasequestrianproject.extension.propertyString
 import com.nfrevolution.hannasequestrianproject.extension.commonDependencies
@@ -31,5 +32,6 @@ buildkonfig {
         buildConfigField(STRING, "tiktokUrl", properties.propertyString("TIKTOK_URL"))
         buildConfigField(STRING, "storageUrl", properties.propertyString("STORAGE_URL"))
         buildConfigField(STRING, "databaseUrlHost", properties.propertyString("DATABASE_URL_HOST"))
+        buildConfigField(BOOLEAN, "enableBrowserSync", properties.propertyString("ENABLE_BROWSER_SYNC"))
     }
 }

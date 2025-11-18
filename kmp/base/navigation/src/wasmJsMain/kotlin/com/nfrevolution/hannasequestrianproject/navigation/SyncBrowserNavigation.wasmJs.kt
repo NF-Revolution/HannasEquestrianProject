@@ -7,6 +7,7 @@ import androidx.compose.runtime.remember
 import com.composegears.tiamat.compose.popToTop
 import com.composegears.tiamat.navigation.NavController
 import com.composegears.tiamat.navigation.NavDestination
+import com.nfrevolution.hannasequestrianproject.core.AppConfig
 import kotlinx.browser.window
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -82,6 +83,8 @@ public actual fun syncBrowserNavigationIfSupported(
     navController: NavController,
     destinationRoutes: Map<NavDestination<*>, String>
 ) {
+    if (!AppConfig.enableBrowserSync) return
+
     val routeToDestination = remember(destinationRoutes) {
         destinationRoutes.entries.associate { (dest, route) -> route to dest }
     }

@@ -14,17 +14,22 @@ import com.composegears.tiamat.navigation.NavDestination
 import com.nfrevolution.hannasequestrianproject.core.localprovider.drawer.LocalDrawerState
 import com.nfrevolution.hannasequestrianproject.core.localprovider.orientation.LocalScreenOrientation
 import com.nfrevolution.hannasequestrianproject.core.localprovider.orientation.ScreenOrientation
+import com.nfrevolution.hannasequestrianproject.navigation.syncBrowserNavigationIfSupported
 import com.nfrevolution.hannasequestrianproject.navigationdrawer.presentation.NavigationDrawerScreenContent
 
 @Composable
 public fun MainContentScreenContent(
     startDestination: NavDestination<*>,
-    destinations: Array<NavDestination<*>>,
+    destinationRoutes: Map<NavDestination<*>, String> = emptyMap()
 ) {
+    val destinations = destinationRoutes.keys.toTypedArray()
+
     val navController = rememberNavController(
         startDestination = startDestination,
     )
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
+    syncBrowserNavigationIfSupported(navController, destinationRoutes)
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val screenOrientation = if (maxWidth > maxHeight) {

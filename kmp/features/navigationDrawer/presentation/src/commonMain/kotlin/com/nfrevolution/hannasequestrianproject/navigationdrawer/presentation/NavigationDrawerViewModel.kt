@@ -57,7 +57,7 @@ internal class NavigationDrawerViewModel(
                 is NavigationDrawerIntent.NavigateTo -> {
                     withState {
                         if (selectedItem != intent.menuItem) {
-                            updateState { copy(intent.menuItem) }
+                            updateState { copy(selectedItem = intent.menuItem) }
                             action(NavigateTo(intent.menuItem.destination))
                         }
                     }
@@ -66,8 +66,23 @@ internal class NavigationDrawerViewModel(
                 NavigationDrawerIntent.NavigateToHome -> {
                     withState {
                         if (selectedItem != null) {
-                            updateState { copy(null) }
+                            updateState { copy(selectedItem = null) }
                             action(NavigateTo(featureProvider.home))
+                        }
+                    }
+                }
+
+                is NavigationDrawerIntent.SyncSelectedItem -> {
+                    val newSelectedItem = when {
+                        intent.currentDestination == featureProvider.home -> null
+                        else -> drawerDestinations.find {
+                            it.destination == intent.currentDestination
+                        }
+                    }
+
+                    withState {
+                        if (selectedItem != newSelectedItem) {
+                            updateState { copy(selectedItem = newSelectedItem) }
                         }
                     }
                 }
@@ -141,6 +156,8 @@ internal sealed interface NavigationDrawerIntent : MVIIntent {
     data class NavigateTo(val menuItem: DrawerMenuItem) : NavigationDrawerIntent
 
     data object NavigateToHome : NavigationDrawerIntent
+
+    data class SyncSelectedItem(val currentDestination: NavDestination<*>) : NavigationDrawerIntent
 }
 
 internal sealed interface NavigationDrawerAction : MVIAction {

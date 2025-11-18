@@ -20,7 +20,7 @@ import com.nfrevolution.hannasequestrianproject.navigationdrawer.presentation.Na
 @Composable
 public fun MainContentScreenContent(
     startDestination: NavDestination<*>,
-    destinationRoutes: Map<NavDestination<*>, String> = emptyMap()
+    destinationRoutes: Map<NavDestination<*>, String>,
 ) {
     val destinations = destinationRoutes.keys.toTypedArray()
 
